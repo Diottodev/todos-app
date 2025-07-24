@@ -207,7 +207,7 @@ export class TasksController {
         id: '1',
         title: 'Tarefa Atualizada',
         type: 'PERSONAL',
-        completed: true,
+        completed: false,
         createdAt: { type: 'string', format: 'date-time' },
         updatedAt: { type: 'string', format: 'date-time' },
       },
