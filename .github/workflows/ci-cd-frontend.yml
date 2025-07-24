@@ -1,9 +1,9 @@
-name: Backend CI/CD
+name: Frontend CI/CD
 
 on:
   push:
     paths:
-      - 'backend/**'
+      - 'frontend/**'
     branches:
       - main
 
@@ -20,29 +20,29 @@ jobs:
         node-version: '20'
 
     - name: Install dependencies
-      working-directory: ./backend
+      working-directory: ./frontend
       run: yarn install
 
     - name: Run tests
-      working-directory: ./backend
+      working-directory: ./frontend
       run: yarn test
 
     - name: Build project
-      working-directory: ./backend
-      run: yarn build
+      working-directory: ./frontend
+      run: yarn build && yarn export
 
     - name: Build Docker image
-      run: docker build -t backend:latest ./backend
+      run: docker build -t frontend:latest ./frontend
 
-    - name: Login to EC2 via SSH and deploy backend
+    - name: Login to EC2 via SSH and deploy frontend
       uses: appleboy/ssh-action@v0.1.7
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          docker stop backend || true
-          docker rm backend || true
-          docker pull backend:latest || true
-          docker build -t backend:latest ./backend
-          docker run -d --name backend -p 8080:8080 backend:latest
+          docker stop frontend || true
+          docker rm frontend || true
+          docker pull frontend:latest || true
+          docker build -t frontend:latest ./frontend
+          docker run -d --name frontend -p 80:80 frontend:latest
