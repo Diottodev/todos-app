@@ -68,7 +68,7 @@ jobs:
             debug: true
             script: |
               cd ~/todos-app/backend
-              docker compose up -d db
+              docker-compose up -d db
               sleep 20 # aguarda o banco iniciar
               npx prisma migrate deploy && yarn db:generate
               docker build -t todos-backend .
