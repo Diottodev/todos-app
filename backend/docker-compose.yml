@@ -27,7 +27,7 @@ services:
     ports:
       - "3333:3333"
     depends_on:
-      postgres:
+      db:
         condition: service_healthy
     env_file:
       - .env
@@ -35,3 +35,4 @@ services:
 volumes:
   postgres_data:
     driver: local
+
