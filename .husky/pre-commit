@@ -1,6 +1,8 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+cd backend
+
 yarn lint-staged
 yarn lint
 yarn test
