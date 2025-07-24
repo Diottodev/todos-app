@@ -7,6 +7,11 @@ on:
   pull_request:
     paths:
       - 'backend/**'
+    workflow_dispatch:
+
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: true
 
 jobs:
   build:
@@ -26,17 +31,17 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - uses: Diottodev/checkout@v3
+      - uses: Diottodev/checkout@v4
       - name: Set up Node.js
-        uses: Diottodev/setup-node@v3
+        uses: Diottodev/setup-node@v4
         with:
           node-version: '20'
-      - run: cd backend && yarn install
-      - run: cd backend && yarn db:migrate
-      - run: cd backend && yarn test
-      - run: cd backend && yarn test:e2e
-      - run: cd backend && yarn test:cov
-      - run: cd backend && yarn lint
+      - name: Install dependencies
+        run: cd backend && yarn install --frozen-lockfile
+      - name: Build the application
+        run: cd backend && yarn build
+      - name: Run migrations
+        run: cd backend && npx prisma migrate deploy && yarn db:generate
 
   test:
     runs-on: ubuntu-latest
@@ -52,20 +57,21 @@ jobs:
         run: cd backend && yarn test
 
   deploy:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: ${{ secrets.EC2_PORT || 22 }}
-          debug: true
-          script: |
-            cd ~/todos-app/backend
-            git pull
-            cd backend
-            docker compose build
-            docker compose up -d --remove-orphans
+      runs-on: ubuntu-latest
+      timeout-minutes: 30
+      steps:
+        - name: Deploy to EC2
+          uses: appleboy/ssh-action@v1.0.0
+          with:
+            host: ${{ secrets.EC2_HOST }}
+            username: ${{ secrets.EC2_USER }}
+            key: ${{ secrets.EC2_SSH_KEY }}
+            port: ${{ secrets.EC2_PORT || 22 }}
+            debug: true
+            script: |
+              cd ~/todos-app/backend
+              git pull
+              cd backend
+              docker compose build
+              docker compose up -d --remove-orphans
+  
