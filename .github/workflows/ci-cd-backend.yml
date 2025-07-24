@@ -79,6 +79,9 @@ jobs:
             script: |
               cd ~/todos-app/backend
               git pull
-              docker compose build
-              docker compose up -d --remove-orphans
-  
+
+        - name: Build Docker image
+          run: docker build -t todos-backend ./backend
+
+        - name: Run Docker container
+          run: docker run -d -p 3333:3333 --env-file ./backend/.env --name todos-backend todos-backend
