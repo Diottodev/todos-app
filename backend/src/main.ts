@@ -21,15 +21,8 @@ const config = new DocumentBuilder()
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(cors());
   const document = SwaggerModule.createDocument(app, config);
-  app.use(
-    cors({
-      origin: '*',
-      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-      preflightContinue: false,
-      optionsSuccessStatus: 204,
-    }),
-  );
   SwaggerModule.setup('api', app, document);
   console.log('Documentação Swagger disponível em: http://localhost:3333/api');
   await app.listen(process.env.PORT ?? 8080, '0.0.0.0');
