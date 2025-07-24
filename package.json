@@ -10,5 +10,8 @@
   "devDependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2"
+  },
+  "dependencies": {
+    "strip-ansi": "^7.1.0"
   }
 }

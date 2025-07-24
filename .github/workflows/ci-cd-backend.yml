@@ -3,10 +3,10 @@ name: CI-CD-backend
 on:
   push:
     paths:
-      - 'backend/**'
+      - "backend/**"
   pull_request:
     paths:
-      - 'backend/**'
+      - "backend/**"
     workflow_dispatch:
 
     concurrency:
@@ -35,12 +35,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
       - name: Install dependencies
         run: cd backend && yarn install --frozen-lockfile
       - name: Build the application
         run: cd backend && yarn build
-      
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -48,35 +48,26 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
       - name: Install dependencies
         run: cd backend && yarn install --frozen-lockfile
       - name: Run tests
         run: cd backend && yarn test
 
   deploy:
-      runs-on: ubuntu-latest
-      timeout-minutes: 30
-      steps:
-        - name: Deploy to EC2
-          uses: appleboy/ssh-action@v1.0.0
-          with:
-            host: ${{ secrets.EC2_HOST }}
-            username: ${{ secrets.EC2_USER }}
-            key: ${{ secrets.EC2_SSH_KEY }}
-            port: ${{ secrets.EC2_PORT || 22 }}
-            debug: true
-            script: |
-              cd ~/todos-app/backend
-              git pull
-              docker-compose up -d db
-              sleep 20 # aguarda o banco iniciar
-              set -a
-              source .env
-              set +a
-              npx prisma migrate deploy && yarn db:generate
-              docker-compose up -d --remove-orphans
-              docker ps -a
-              docker logs todolist-api
-
-
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_PORT || 22 }}
+          debug: true
+          script: |
+            cd ~/todos-app/backend
+            git pull
+            docker-compose build
+            docker-compose up -d --remove-orphans

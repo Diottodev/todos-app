@@ -1,20 +1,8 @@
-# Dockerfile to build a Node.js application with Prisma
 FROM node:20-alpine
-
 WORKDIR /app
-
 COPY package.json yarn.lock ./
-
-RUN yarn install --frozen-lockfile
-
+RUN yarn install --production
 COPY . .
-
-RUN npx nest build
-
-RUN npx prisma migrate deploy
-
-RUN npx prisma generate
-
+ENV NODE_ENV=production
 EXPOSE 3333
-
-CMD ["node", "dist/main.js"]
+RUN yarn build
