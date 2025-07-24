@@ -1,0 +1,14 @@
+{
+  "name": "todos-app",
+  "version": "1.0.0",
+  "repository": "https://github.com/Diottodev/todos-app.git",
+  "author": "DiottoDev <nicodiottodev@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2"
+  }
+}
