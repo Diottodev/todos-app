@@ -38,13 +38,13 @@ jobs:
       - run: cd backend && yarn test:e2e
       - run: cd backend && yarn test:cov
       - run: cd backend && yarn lint
-      
-test:
+
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: Diottodev/checkout@v4
       - name: Set up Node.js
-        uses: aDiottodev/setup-node@v4
+        uses: Diottodev/setup-node@v4
         with:
           node-version: '20'
       - name: Install dependencies
@@ -52,11 +52,9 @@ test:
       - name: Run tests
         run: cd backend && yarn test
 
-deploy:
-    needs: dockerize
+  deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-
     steps:
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.0
