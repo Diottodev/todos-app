@@ -40,17 +40,7 @@ jobs:
         run: cd backend && yarn install --frozen-lockfile
       - name: Build the application
         run: cd backend && yarn build
-      - name: Wait for Postgres
-        run: |
-          for i in {1..30}; do
-            nc -z localhost 5433 && echo "Postgres is up" && break
-            sleep 1
-          done
-      - name: Run migrations
-        run: cd backend && npx prisma migrate deploy && yarn db:generate
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
+      
   test:
     runs-on: ubuntu-latest
     steps:
@@ -78,10 +68,14 @@ jobs:
             debug: true
             script: |
               cd ~/todos-app/backend
-              git pull
+              docker compose up -d db
+              sleep 10 # aguarda o banco iniciar
+              
+        - name: Run migrations
+          run: cd backend && npx prisma migrate deploy && yarn db:generate
 
         - name: Build Docker image
           run: cd ~/todos-app/backend && docker build -t todos-backend .
-          
+
         - name: Run Docker container
           run: docker run -d -p 3333:3333 --env-file ./backend/.env --name todos-backend todos-backend
