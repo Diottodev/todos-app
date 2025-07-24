@@ -81,7 +81,7 @@ jobs:
               git pull
 
         - name: Build Docker image
-          run: docker build -t todos-backend ./backend
-
+          run: cd ~/todos-app/backend && docker build -t todos-backend .
+          
         - name: Run Docker container
           run: docker run -d -p 3333:3333 --env-file ./backend/.env --name todos-backend todos-backend
