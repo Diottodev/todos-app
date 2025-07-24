@@ -36,10 +36,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Install dependencies
-        run: cd backend && yarn install --frozen-lockfile
       - name: Run Nest cli
         run: cd backend && yarn add -D @nestjs/cli
+      - name: Install dependencies
+        run: cd backend && yarn install --frozen-lockfile
       - name: Run Prisma generate
         run: cd backend && npx prisma generate
       - name: Run Prisma migrate
