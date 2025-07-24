@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@fastify/cors": "^11.0.1",
+    "@fastify/static": "^8.2.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
@@ -32,6 +33,7 @@
     "@prisma/client": "^6.12.0",
     "email-validator": "^2.0.4",
     "global": "^4.4.0",
+    "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
     "string-length": "^6.0.0",
     "strip-ansi": "^7.1.0",
@@ -49,6 +51,7 @@
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.7",
+    "@types/passport-jwt": "^4.0.1",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
