@@ -9,7 +9,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Tasks list",
+  title: "Taskedtas list",
   description: "Um aplicativo simples de gerenciar tarefas",
 };
 
