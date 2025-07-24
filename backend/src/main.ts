@@ -1,6 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import {
+  FastifyAdapter,
+  type NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 
 const config = new DocumentBuilder()
   .setTitle('Documentação API Lista de Tarefas')
@@ -18,8 +22,20 @@ const config = new DocumentBuilder()
   )
   .build();
 
+const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter(),
+    {
+      cors: {
+        methods,
+        credentials: true,
+        origin: process.env.CORS_ORIGIN ?? 'http://localhost:3000',
+      },
+    },
+  );
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
   console.log('Documentação Swagger disponível em: http://localhost:3333/api');

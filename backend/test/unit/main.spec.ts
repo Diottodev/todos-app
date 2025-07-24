@@ -19,7 +19,11 @@ describe('main bootstrap', () => {
     const logMock = jest.spyOn(console, 'log').mockImplementation();
     process.env.PORT = '8080';
     await import('../../src/main');
-    expect(createMock).toHaveBeenCalledWith(AppModule);
+    expect(createMock).toHaveBeenCalledWith(
+      AppModule,
+      expect.anything(),
+      expect.anything(),
+    );
     expect(createDocMock).toHaveBeenCalled();
     expect(setupMock).toHaveBeenCalled();
     expect(logMock).toHaveBeenCalled();
