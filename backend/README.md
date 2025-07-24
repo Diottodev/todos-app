@@ -20,7 +20,7 @@
 
 1. **Clone o repositório e acesse a pasta do backend:**
    ```bash
-   git clone https://github.com/Diottodev/todos-app/tree/master/backend
+   git clone https://github.com/Diottodev/todos-app
    cd backend
    ```
 
