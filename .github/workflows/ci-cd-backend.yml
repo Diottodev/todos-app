@@ -77,6 +77,6 @@ jobs:
               npx prisma migrate deploy && yarn db:generate
               docker-compose up -d --remove-orphans
               docker ps -a
-              docker logs todos-backend
+              docker logs todolist-api
 
 
