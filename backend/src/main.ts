@@ -5,7 +5,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 const config = new DocumentBuilder()
   .setTitle('Documentação API Lista de Tarefas')
   .setDescription('Endpoints para gerenciamento de tarefas')
-  .setVersion('1.0')
+  .setVersion('1.0.0')
   .addBearerAuth(
     {
       type: 'http',
