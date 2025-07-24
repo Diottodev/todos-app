@@ -69,13 +69,9 @@ jobs:
             script: |
               cd ~/todos-app/backend
               docker compose up -d db
-              sleep 10 # aguarda o banco iniciar
-              
-        - name: Run migrations
-          run: cd backend && npx prisma migrate deploy && yarn db:generate
-
-        - name: Build Docker image
-          run: cd ~/todos-app/backend && docker build -t todos-backend .
-
-        - name: Run Docker container
-          run: docker run -d -p 3333:3333 --env-file ./backend/.env --name todos-backend todos-backend
+              sleep 20 # aguarda o banco iniciar
+              npx prisma migrate deploy && yarn db:generate
+              docker build -t todos-backend .
+              docker run -d -p 3333:3333 --env-file .env --name todos-backend todos-backend
+              docker ps -a
+              docker logs todos-backend
