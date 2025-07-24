@@ -27,9 +27,9 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - uses: actions/checkout@v3
+      - uses: Diottodev/checkout@v3
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: Diottodev/setup-node@v3
         with:
           node-version: '20'
       - run: cd backend && yarn install
@@ -42,9 +42,9 @@ jobs:
 test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: Diottodev/checkout@v4
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: aDiottodev/setup-node@v4
         with:
           node-version: '20'
       - name: Install dependencies
