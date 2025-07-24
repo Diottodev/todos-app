@@ -22,7 +22,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  console.log('Documentação Swagger disponível em: http://localhost:8080/api');
-  await app.listen(process.env.PORT ?? 8080);
+  console.log('Documentação Swagger disponível em: http://localhost:3333/api');
+  await app.listen(process.env.PORT ?? 3333);
 }
 void bootstrap();
