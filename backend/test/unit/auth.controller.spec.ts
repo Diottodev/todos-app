@@ -4,6 +4,7 @@ import { AuthController } from '../../src/modules/auth/auth.controller';
 import { AuthService } from '../../src/modules/auth/auth.service';
 import { LoginDto } from '../../src/modules/auth/dto/login.dto';
 import { RegisterDto } from '../../src/modules/auth/dto/register.dto';
+import { Response } from 'express';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -44,13 +45,17 @@ describe('AuthController', () => {
   it('should call login', async () => {
     const mockUser = { name: 'User Name', email: 'user@example.com' };
     const dto = new LoginDto(mockUser.email, 'password123');
-    await controller.login(dto);
+    const mockRes = {
+      cookie: jest.fn(),
+    } as unknown as Response;
+    await controller.login(dto, mockRes);
     expect(service.login).toHaveBeenCalledWith(dto.email, dto.password);
   });
 
   it('should call register', async () => {
     const dto = new RegisterDto('mock-name', 'mock-email', 'mock-password');
-    await controller.register(dto);
+    const mockRes = { cookie: jest.fn() } as unknown as Response;
+    await controller.register(dto, mockRes);
     expect(service.register).toHaveBeenCalledWith(
       dto.name,
       dto.email,

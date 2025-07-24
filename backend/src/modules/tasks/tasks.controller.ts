@@ -6,12 +6,13 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   Req,
   NotFoundException,
   UnauthorizedException,
   HttpCode,
   HttpStatus,
+  Put,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -25,17 +26,17 @@ import { Request } from 'express';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { AuthGuard } from '../auth/auth.guard';
 import type { Task } from '@prisma/client';
 import { TaskResponseDto } from './dto/task-response.dto';
+import { AuthGuard } from '../auth/auth.guard';
 
-interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest extends Request {
   user?: { id: string };
 }
 
-@UseGuards(AuthGuard)
 @ApiTags('tasks')
 @ApiBearerAuth('default')
+@UseGuards(AuthGuard)
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
@@ -149,7 +150,7 @@ export class TasksController {
     return task;
   }
 
-  @Patch(':id')
+  @Put(':id/edit')
   @ApiOperation({ summary: 'Atualiza uma tarefa pelo ID' })
   @ApiParam({ name: 'id', type: String })
   @ApiBody({ type: UpdateTaskDto })

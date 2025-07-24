@@ -14,6 +14,20 @@ export class AuthService {
     private readonly prismaService: PrismaService,
   ) {}
 
+  async getProfile(userId: string) {
+    if (!userId) {
+      throw new UnauthorizedException('Usuário não autenticado.');
+    }
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      select: { id: true, name: true, email: true },
+    });
+    if (!user) {
+      throw new UnauthorizedException('Usuário não encontrado.');
+    }
+    return user;
+  }
+
   async login(
     email: string,
     password: string,

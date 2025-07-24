@@ -69,5 +69,11 @@ jobs:
           script: |
             cd ~/todos-app/backend
             git pull
+            yarn add -D @nest/cli
+            npx prisma generate
+            npx prisma migrate deploy
+            yarn install --frozen-lockfile
+            yarn build
+            docker-compose down
             docker-compose build
             docker-compose up -d --remove-orphans

@@ -1,13 +1,27 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { Response } from 'express';
+import { AuthGuard } from './auth.guard';
+import type { AuthenticatedRequest } from '../tasks/tasks.controller';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
   @ApiOperation({ summary: 'Realiza login do usuário' })
   @ApiBody({ type: LoginDto })
   @ApiResponse({
@@ -23,8 +37,21 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Credenciais inválidas.' })
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  async login(@Body() loginDto: LoginDto) {
-    return await this.authService.login(loginDto.email, loginDto.password);
+  async login(
+    @Body() loginDto: LoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { access_token, user } = await this.authService.login(
+      loginDto.email,
+      loginDto.password,
+    );
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      path: '/',
+    });
+    return { user, access_token };
   }
 
   @ApiOperation({ summary: 'Realiza cadastro de novo usuário' })
@@ -45,11 +72,27 @@ export class AuthController {
   })
   @HttpCode(HttpStatus.CREATED)
   @Post('register')
-  async register(@Body() registerDto: RegisterDto) {
-    return await this.authService.register(
+  async register(
+    @Body() registerDto: RegisterDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { access_token, user } = await this.authService.register(
       registerDto.name,
       registerDto.email,
       registerDto.password,
     );
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      path: '/',
+    });
+    return { user, access_token };
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  getProfile(@Req() req: AuthenticatedRequest) {
+    return this.authService.getProfile(req.user?.id as string);
   }
 }
