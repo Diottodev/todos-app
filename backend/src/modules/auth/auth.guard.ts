@@ -25,10 +25,6 @@ export class AuthGuard implements CanActivate {
       }>(token, {
         secret: process.env.JWT_SECRET as string,
       });
-      console.log('Token payload:', payload);
-      console.log(
-        (request['user'] = { id: payload.sub, email: payload.email }),
-      );
       request['user'] = { id: payload.sub, email: payload.email };
     } catch {
       throw new UnauthorizedException();
