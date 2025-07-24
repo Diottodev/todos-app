@@ -68,6 +68,7 @@ jobs:
             debug: true
             script: |
               cd ~/todos-app/backend
+              git pull
               docker-compose up -d db
               sleep 20 # aguarda o banco iniciar
               set -a
