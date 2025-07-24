@@ -2,7 +2,7 @@
 
 FROM node:20 AS builder
 
-WORKDIR /app
+WORKDIR /frontend
 COPY . .
 
 RUN yarn install
@@ -10,9 +10,9 @@ RUN yarn build
 
 FROM node:20-alpine
 
-WORKDIR /app
+WORKDIR /frontend
 
-COPY --from=builder /app ./
+COPY --from=builder /frontend ./
 ENV NODE_ENV=production
 
 EXPOSE 3000
