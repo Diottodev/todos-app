@@ -3,6 +3,7 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --production
 COPY . .
+RUN yarn prisma generate
 ENV NODE_ENV=production
 EXPOSE 8080
 RUN yarn build
