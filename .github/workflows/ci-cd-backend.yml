@@ -70,8 +70,12 @@ jobs:
               cd ~/todos-app/backend
               docker-compose up -d db
               sleep 20 # aguarda o banco iniciar
+              set -a
+              source .env
+              set +a
               npx prisma migrate deploy && yarn db:generate
               docker build -t todos-backend .
+              ls -la .env
               docker run -d -p 3333:3333 --env-file .env --name todos-backend todos-backend
               docker ps -a
               docker logs todos-backend
