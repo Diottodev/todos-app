@@ -1,0 +1,75 @@
+
+name: CI-CD-backend
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+  pull_request:
+    paths:
+      - 'backend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: todo-database
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - run: cd backend && yarn install
+      - run: cd backend && yarn db:migrate
+      - run: cd backend && yarn test
+      - run: cd backend && yarn test:e2e
+      - run: cd backend && yarn test:cov
+      - run: cd backend && yarn lint
+      
+test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: cd backend && yarn install --frozen-lockfile
+      - name: Run tests
+        run: cd backend && yarn test
+
+deploy:
+    needs: dockerize
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_PORT || 22 }}
+          debug: true
+          script: |
+            cd ~/todos-app/backend
+            git pull
+            cd backend
+            docker compose build
+            docker compose up -d --remove-orphans
+
