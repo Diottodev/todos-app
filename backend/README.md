@@ -20,24 +20,24 @@
 
 1. **Clone o repositório e acesse a pasta do backend:**
    ```bash
-   git clone <url-do-repo>
+   git clone [<url-do-repo>](https://github.com/Diottodev/todos-app/tree/master/backend)
    cd backend
    ```
 
-2. **Suba o banco de dados com Docker:**
-   ```bash
-   docker-compose up -d
-   ```
-
-3. **Instale as dependências:**
+2. **Instale as dependências:**
    ```bash
    yarn install
    ```
 
-4. **Configure as variáveis de ambiente:**
+3. **Configure as variáveis de ambiente:**
    Crie um arquivo `.env` com a seguinte variável:
    ```
    DATABASE_URL="postgresql://postgres:postgres@localhost:5432/todo-database"
+   ```
+
+4. **Suba o banco de dados com Docker:**
+   ```bash
+   docker-compose up -d
    ```
 
 5. **Execute as migrações do Prisma:**
