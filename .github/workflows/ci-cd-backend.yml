@@ -42,6 +42,8 @@ jobs:
         run: cd backend && yarn build
       - name: Run migrations
         run: cd backend && npx prisma migrate deploy && yarn db:generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
   test:
     runs-on: ubuntu-latest
