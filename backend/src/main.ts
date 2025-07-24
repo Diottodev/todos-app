@@ -24,7 +24,7 @@ async function bootstrap() {
   app.use(cors());
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  console.log('Documentação Swagger disponível em: http://localhost:3333/api');
+  console.log('Documentação Swagger disponível em: http://localhost:8080/api');
   await app.listen(process.env.PORT ?? 8080, '0.0.0.0');
 }
 void bootstrap();
