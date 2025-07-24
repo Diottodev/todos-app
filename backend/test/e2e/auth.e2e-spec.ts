@@ -43,7 +43,6 @@ describe('AuthController (e2e)', () => {
       .overrideProvider(PrismaService)
       .useValue(prismaMock)
       .compile();
-
     app = moduleFixture.createNestApplication();
     await app.init();
   });
