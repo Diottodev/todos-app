@@ -4,5 +4,5 @@ COPY package.json yarn.lock ./
 RUN yarn install --production
 COPY . .
 ENV NODE_ENV=production
-EXPOSE 3333
+EXPOSE 8080
 RUN yarn build
