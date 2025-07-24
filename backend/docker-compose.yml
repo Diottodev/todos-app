@@ -1,7 +1,6 @@
 services:
   postgres:
-    image: postgres:latest
-    container-name: todolist
+    image: postgres:16-alpine
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
