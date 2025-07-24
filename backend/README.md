@@ -76,7 +76,7 @@
 
 ## Como funciona o CI/CD
 
-O projeto está preparado para integração contínua (CI/CD) utilizando plataformas como GitHub Actions, similares. O fluxo padrão inclui:
+O projeto está preparado para integração contínua (CI/CD) utilizando plataformas como GitHub Actions. O fluxo padrão inclui:
 
 1. **Instalação das dependências**
 2. **Execução dos testes unitários e e2e**
