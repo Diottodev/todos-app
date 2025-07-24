@@ -53,4 +53,4 @@ O deploy é feito automaticamente para uma instância EC2 configurada via secret
 
 ---
 
-Dúvidas ou sugestões? Abra uma issue ou pull request!
+Dúvidas ou sugestões? Abra uma issue ou pull request.
