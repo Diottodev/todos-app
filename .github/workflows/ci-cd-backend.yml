@@ -3,46 +3,46 @@ name: Backend CI/CD
 on:
   push:
     paths:
-      - 'backend/**'
+      - "backend/**"
     branches:
-      - main
+      - master
 
 jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Setup Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
 
-    - name: Install dependencies
-      working-directory: ./backend
-      run: yarn install
+      - name: Install dependencies
+        working-directory: ./backend
+        run: yarn install
 
-    - name: Run tests
-      working-directory: ./backend
-      run: yarn test
+      - name: Run tests
+        working-directory: ./backend
+        run: yarn test
 
-    - name: Build project
-      working-directory: ./backend
-      run: yarn build
+      - name: Build project
+        working-directory: ./backend
+        run: yarn build
 
-    - name: Build Docker image
-      run: docker build -t backend:latest ./backend
+      - name: Build Docker image
+        run: docker build -t backend:latest ./backend
 
-    - name: Login to EC2 via SSH and deploy backend
-      uses: appleboy/ssh-action@v0.1.7
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USER }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          docker stop backend || true
-          docker rm backend || true
-          docker pull backend:latest || true
-          docker build -t backend:latest ./backend
-          docker run -d --name backend -p 8080:8080 backend:latest
+      - name: Login to EC2 via SSH and deploy backend
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker stop backend || true
+            docker rm backend || true
+            docker pull backend:latest || true
+            docker build -t backend:latest ./backend
+            docker run -d --name backend -p 8080:8080 backend:latest
