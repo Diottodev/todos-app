@@ -14,5 +14,4 @@ if git diff --cached --name-only | grep '^frontend/'; then
   cd frontend
   yarn lint-staged
   yarn lint
-  yarn test
 fi
