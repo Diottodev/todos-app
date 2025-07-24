@@ -8,7 +8,6 @@ import { RegisterDto } from './dto/register.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-
   @ApiOperation({ summary: 'Realiza login do usuário' })
   @ApiBody({ type: LoginDto })
   @ApiResponse({
