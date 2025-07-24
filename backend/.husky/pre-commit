@@ -1,1 +1,6 @@
-npx --no-install lint-staged
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+yarn lint-staged
+yarn lint
+yarn test
