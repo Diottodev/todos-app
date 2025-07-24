@@ -45,4 +45,4 @@ jobs:
             docker rm frontend || true
             docker pull frontend:latest || true
             docker build -t frontend:latest ./frontend
-            docker run -d --name frontend -p 80:80 frontend:latest
+            docker run -d --name frontend -p 3000:3000 frontend:latest
