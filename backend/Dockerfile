@@ -11,6 +11,10 @@ COPY . .
 
 RUN npx nest build
 
+RUN npx prisma migrate deploy
+
+RUN npx prisma generate
+
 EXPOSE 3333
 
 CMD ["node", "dist/main.js"]
