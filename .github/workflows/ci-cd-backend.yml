@@ -71,7 +71,6 @@ jobs:
             script: |
               cd ~/todos-app/backend
               git pull
-              cd backend
               docker compose build
               docker compose up -d --remove-orphans
   
