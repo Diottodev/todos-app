@@ -1,8 +1,18 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-cd backend
+if git diff --cached --name-only | grep '^backend/'; then
+  echo "🔍 Verificando backend..."
+  cd backend
+  yarn lint-staged
+  yarn lint
+  yarn test
+fi
 
-yarn lint-staged
-yarn lint
-yarn test
+if git diff --cached --name-only | grep '^frontend/'; then
+  echo "🔍 Verificando frontend..."
+  cd frontend
+  yarn lint-staged
+  yarn lint
+  yarn test
+fi
