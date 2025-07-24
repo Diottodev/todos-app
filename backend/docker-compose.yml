@@ -9,6 +9,28 @@ services:
       - '5433:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d zenithly"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+    container_name: todolist-api
+    restart: unless-stopped
+    ports:
+      - "3333:3333"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
 
 volumes:
   postgres_data:
