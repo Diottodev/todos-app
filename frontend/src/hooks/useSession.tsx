@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useToken } from "./useToken";
 
 interface UserProfile {
+  id: string;
   name: string;
   email: string;
 }
