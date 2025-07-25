@@ -19,7 +19,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html
+      lang="pt-BR"
+      className="light scheme-only-light"
+      suppressHydrationWarning
+    >
       <body className={`${fraunces.className} antialiased`}>
         <Providers>{children}</Providers>
       </body>
