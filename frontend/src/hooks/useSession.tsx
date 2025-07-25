@@ -14,16 +14,18 @@ interface UseSessionResult {
 }
 
 export function useSession(): UseSessionResult {
-  const { getToken } = useToken();
+  const { token } = useToken();
+  const shouldFetch = !!token;
   const { data, isLoading, error } = useQuery<UserProfile, Error>({
-    queryKey: ["profile"],
+    queryKey: ["profile", token],
     queryFn: async () => {
+      if (!token) throw new Error("Sem token");
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
       const res = await fetch(`${apiUrl}/auth/profile`, {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${getToken()}`,
+          authorization: `Bearer ${token}`,
         },
       });
       if (!res.ok) {
@@ -32,6 +34,7 @@ export function useSession(): UseSessionResult {
       const json = await res.json();
       return json as UserProfile;
     },
+    enabled: shouldFetch,
   });
   return {
     user: data ?? null,

@@ -17,7 +17,7 @@ import {
   FormLabel,
   Form,
 } from "./ui/form";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Logo } from "./ui/logo";
@@ -26,10 +26,13 @@ import { useSession } from "@/hooks/useSession";
 
 export function LoginForm() {
   const { user } = useSession();
-  const { getToken } = useToken();
-  if (user?.id && getToken()) {
-    redirect("/tasks");
-  }
+  const { token } = useToken();
+  const router = useRouter();
+  React.useEffect(() => {
+    if (user?.id && token) {
+      router.push("/tasks");
+    }
+  }, [user, token, router]);
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -38,7 +41,6 @@ export function LoginForm() {
     },
     mode: "onBlur",
   });
-  const router = useRouter();
   const { setToken } = useToken();
   const emailLoginMutation = useMutation({
     mutationFn: async (data: LoginFormData) => {
