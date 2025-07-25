@@ -3,8 +3,16 @@ name: CI-CD-APP
 on:
   push:
     branches: [master]
+    paths-ignore:
+      - "README.md"
+      - "backend/README.md"
+      - "frontend/README.md"
   pull_request:
     branches: [master]
+    paths-ignore:
+      - "README.md"
+      - "backend/README.md"
+      - "frontend/README.md"
   workflow_dispatch:
 
 concurrency:
@@ -92,5 +100,5 @@ jobs:
           script: |
             cd ~/todos-app
             git pull
-            docker-compose build
-            docker-compose up -d --remove-orphans
+            docker compose build
+            docker compose up -d --remove-orphans
