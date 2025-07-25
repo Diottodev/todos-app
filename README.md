@@ -1,6 +1,6 @@
-# Taskedtask – Monorepo
+# Minhas tarefas - Todo app – Monorepo
 
-O Taskedtask é uma plataforma moderna para organização de tarefas, pensada para produtividade pessoal e de equipes. Desenvolvido em arquitetura monorepo, integra backend robusto, frontend responsivo e automação CI/CD.
+O `Minhas tarefas` - Todo app - é uma plataforma moderna para organização de tarefas, pensada para produtividade pessoal e de equipes. Desenvolvido em arquitetura monorepo, integra backend robusto, frontend responsivo e automação CI/CD.
 
 ## Links
 
@@ -39,7 +39,7 @@ O frontend consome a API do backend, que gerencia autenticação, regras de neg�
 
 # Sobre o Projeto
 
-O **Taskedtask** é uma solução completa para gerenciamento de tarefas, desenvolvida em arquitetura monorepo. O objetivo é fornecer uma experiência moderna, segura e escalável tanto para usuários finais quanto para desenvolvedores.
+O **Minhas tarefas - Todo app -** é uma solução completa para gerenciamento de tarefas, desenvolvida em arquitetura monorepo. O objetivo é fornecer uma experiência moderna, segura e escalável tanto para usuários finais quanto para desenvolvedores.
 
 ## Para que serve?
 
@@ -128,12 +128,11 @@ yarn cypress run
 
 ---
 
-
 ## Pipeline CI/CD e Notificações
 
-O CI/CD do Taskedtask utiliza pipelines modernas para garantir qualidade, integração contínua, deploy automatizado e notificações em tempo real.
+O CI/CD do `Minhas tarefas` - Todo app - utiliza pipelines modernas para garantir qualidade, integração contínua, deploy automatizado e notificações em tempo real.
 
-### Pepeline 
+### Pepeline
 
 - **Disparo:** Pushs ou Pull Requests para a branch principal (`master`)
 - **Etapas principais:**
@@ -147,17 +146,16 @@ O CI/CD do Taskedtask utiliza pipelines modernas para garantir qualidade, integr
 
 Secrets e variáveis de ambiente são gerenciados pelo GitHub Actions para garantir segurança.
 
-#### Notificações e Health Check  
+#### Notificações e Health Check
 
 - Após cada execução do pipeline, uma workflow secundária envia notificações para o Discord informando sucesso ou falha do deploy.
 - Existe também uma rotina de health check que verifica periodicamente a saúde da API e envia alertas em caso de falha.
-
 
 ## Infraestrutura e Deploy
 
 Após o deploy dos serviços no EC2, o servidor EC2 utiliza o Nginx como load balancer para gerenciar o DNS. O Nginx direciona as requisições do domínio para os links corretos do frontend e backend, garantindo alta disponibilidade e roteamento eficiente entre os serviços.
 
-O **Taskedtask** é uma solução completa para gerenciamento de tarefas, desenvolvida em arquitetura monorepo. O objetivo é fornecer uma experiência moderna, segura e escalável tanto para usuários finais quanto para desenvolvedores.
+O **Minhas tarefas - Todo app -** é uma solução completa para gerenciamento de tarefas, desenvolvida em arquitetura monorepo. O objetivo é fornecer uma experiência moderna, segura e escalável tanto para usuários finais quanto para desenvolvedores.
 
 #### Exemplo de workflow (resumido)
 

@@ -31,7 +31,7 @@ jobs:
             **Commit:** ${{ steps.workflow.outputs.commit }}
             **Actor:** ${{ steps.workflow.outputs.actor }}
 
-            🚀 Taskedtask todo list deployed successfully!
+            🚀 Minhas tarefas - Todo app - todo list deployed successfully!
           color: 0x00ff00
 
       - name: Send Discord notification on failure
@@ -45,7 +45,7 @@ jobs:
             **Commit:** ${{ steps.workflow.outputs.commit }}
             **Actor:** ${{ steps.workflow.outputs.actor }}
 
-            🚨 Taskedtask todo list deployment failed!
+            🚨 Minhas tarefas - Todo app - todo list deployment failed!
             Check the logs: ${{ github.event.workflow_run.html_url }}
           color: 0xff0000
 
@@ -74,7 +74,7 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           title: "🚨 API Health Check Failed!"
           description: |
-            Taskedtask todo list is not responding correctly.
+            Minhas tarefas - Todo app - todo list is not responding correctly.
 
             **HTTP Status:** ${{ steps.health.outputs.http_code }}
             **Time:** ${{ github.event.head_commit.timestamp }}
