@@ -10,16 +10,32 @@ export default function TasksLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user, loading } = useSession();
+  const { loading } = useSession();
   const { getToken } = useToken();
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        Carregando...
+      <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-background to-muted p-4">
+        <div className="flex space-x-2 mb-4">
+          <span
+            className="block w-3 h-3 bg-primary rounded-full animate-bounce"
+            style={{ animationDelay: "0s" }}
+          ></span>
+          <span
+            className="block w-3 h-3 bg-primary rounded-full animate-bounce"
+            style={{ animationDelay: "0.2s" }}
+          ></span>
+          <span
+            className="block w-3 h-3 bg-primary rounded-full animate-bounce"
+            style={{ animationDelay: "0.4s" }}
+          ></span>
+        </div>
+        <span className="text-lg font-semibold">
+          Carregando suas tarefas...
+        </span>
       </div>
     );
   }
-  if (!user || !getToken()) {
+  if (!getToken()) {
     redirect("/login");
     return null;
   }

@@ -26,7 +26,9 @@ export function UserMenu() {
     document.cookie =
       "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     toast.success("Logout realizado com sucesso!");
-    router.push("/login");
+    setTimeout(() => {
+      router.push("/login");
+    }, 1000);
   };
   const initials = getInitialsName(user.name);
   return (
@@ -57,7 +59,7 @@ export function UserMenu() {
               <div className="text-xs text-muted-foreground">{user.email}</div>
             </div>
           </div>
-          <DropdownMenuItem className="gap-3 px-0 py-2" onClick={handleSignOut}>
+          <DropdownMenuItem className="gap-3 px-0 p-2" onClick={handleSignOut}>
             <LogOut className="h-4 w-4 text-muted-foreground" />
             <span>Sair</span>
           </DropdownMenuItem>

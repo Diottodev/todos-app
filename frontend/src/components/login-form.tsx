@@ -17,13 +17,19 @@ import {
   FormLabel,
   Form,
 } from "./ui/form";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Logo } from "./ui/logo";
 import { useToken } from "@/hooks/useToken";
+import { useSession } from "@/hooks/useSession";
 
 export function LoginForm() {
+  const { user } = useSession();
+  const { getToken } = useToken();
+  if (user?.id && getToken()) {
+    redirect("/tasks");
+  }
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -67,17 +73,17 @@ export function LoginForm() {
     emailLoginMutation.mutate(data);
   };
   return (
-    <AnimatedCard className="mx-auto w-full max-w-md p-4 sm:p-8 shadow-lg rounded-xl bg-white dark:bg-zinc-900">
+    <AnimatedCard className="mx-auto w-full max-w-md p-2 sm:p-8 shadow-lg rounded-xl bg-white dark:bg-zinc-900">
       <CardHeader className="flex flex-col items-center justify-center gap-2 pb-0">
         <Logo className="w-24 h-24" />
-        <CardTitle className="text-center font-bold text-2xl sm:text-3xl text-primary">
+        <CardTitle className="text-center font-bold text-xl sm:text-3xl text-primary">
           Entrar
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6 pt-0">
+      <CardContent className="space-y-4 sm:space-y-6 pt-0">
         <Form {...loginForm}>
           <form
-            className="w-full grid gap-4"
+            className="w-full grid gap-3 sm:gap-4"
             onSubmit={loginForm.handleSubmit(onSubmit)}
             autoComplete="off"
           >
@@ -92,7 +98,7 @@ export function LoginForm() {
                       type="email"
                       placeholder="Digite seu email"
                       {...field}
-                      className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary text-sm sm:text-base"
                     />
                   </FormControl>
                   <FormMessage />
@@ -110,7 +116,7 @@ export function LoginForm() {
                       type="password"
                       placeholder="Digite sua senha"
                       {...field}
-                      className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary text-sm sm:text-base"
                     />
                   </FormControl>
                   <FormMessage />
@@ -119,7 +125,7 @@ export function LoginForm() {
             />
             <Button
               type="submit"
-              className="w-full py-2 rounded-lg font-semibold text-base bg-primary text-white hover:bg-primary/90 transition disabled:opacity-60"
+              className="w-full py-2 rounded-lg font-semibold text-sm sm:text-base bg-primary dark:text-secondary text-white hover:bg-primary/90 transition disabled:opacity-60"
               disabled={
                 emailLoginMutation.isPending || loginForm.formState.isSubmitting
               }

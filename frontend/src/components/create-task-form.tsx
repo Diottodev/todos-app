@@ -81,14 +81,14 @@ export function CreateTaskForm() {
       <DialogTrigger asChild>
         <Button variant="outline">Criar nova tarefa</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[625px]">
+      <DialogContent className="w-full max-w-lg sm:max-w-[625px] p-2 sm:p-6">
         <DialogHeader>
           <DialogTitle>Criar tarefa</DialogTitle>
           <DialogDescription>Preencha os campos necessários</DialogDescription>
         </DialogHeader>
         <Form {...createTaskForm}>
           <form
-            className="w-full grid gap-4"
+            className="w-full grid gap-3 sm:gap-4"
             onSubmit={createTaskForm.handleSubmit(onSubmit)}
             autoComplete="off"
           >
@@ -105,7 +105,7 @@ export function CreateTaskForm() {
                       type="text"
                       placeholder="Digite o título da tarefa"
                       {...field}
-                      className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary text-sm sm:text-base"
                     />
                   </FormControl>
                   <FormMessage />
@@ -120,7 +120,7 @@ export function CreateTaskForm() {
                   <FormLabel className="text-base font-medium">Tipo</FormLabel>
                   <FormControl>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="w-full text-sm sm:text-base">
                         <SelectValue placeholder="Selecione um tipo" />
                       </SelectTrigger>
                       <SelectContent>
@@ -144,7 +144,7 @@ export function CreateTaskForm() {
                     createTaskForm.formState.isSubmitting ||
                     createTaskMutation.isPending
                   }
-                  className="w-full py-2 rounded-lg font-semibold text-base bg-primary text-white hover:bg-primary/90 transition disabled:opacity-60"
+                  className="w-full py-2 rounded-lg font-semibold text-sm sm:text-base bg-primary text-white hover:bg-primary/90 transition disabled:opacity-60"
                 >
                   Criar tarefa
                 </Button>
