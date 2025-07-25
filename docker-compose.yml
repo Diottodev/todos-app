@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -37,18 +37,6 @@ services:
     ports:
       - "8080:8080"
 
-  nginx:
-    container_name: nginx
-    image: nginx:latest
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./certs:/etc/nginx/certs
-    depends_on:
-      - frontend
-      - backend-api
-
 volumes:
   postgres_data:
+    driver: local
