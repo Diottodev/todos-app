@@ -55,7 +55,6 @@ export function UpdateTask({ id, title, type }: UpdateTaskFormData) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          include: "credentials",
           authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify(data),
@@ -63,7 +62,11 @@ export function UpdateTask({ id, title, type }: UpdateTaskFormData) {
       const json = await res.json();
       return json;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (!data.id) {
+        toast.error(data.message || "Erro ao atualizar tarefa");
+        return;
+      }
       toast.success("Tarefa atualizada com sucesso!");
       query.invalidateQueries({ queryKey: ["get-tasks"] });
     },

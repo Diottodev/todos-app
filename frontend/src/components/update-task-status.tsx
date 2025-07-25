@@ -19,7 +19,6 @@ export function UpdateTaskStatus({ id, title, completed, type }: Tasks) {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          include: "credentials",
           Authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify(data),
@@ -27,7 +26,11 @@ export function UpdateTaskStatus({ id, title, completed, type }: Tasks) {
       const json = await res.json();
       return json;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (!data.id) {
+        toast.error(data.message || "Erro ao atualizar status da tarefa");
+        return;
+      }
       queryClient.invalidateQueries({ queryKey: ["get-tasks"] });
     },
     onError: () => {

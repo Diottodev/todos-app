@@ -48,10 +48,12 @@ export function RegisterForm() {
       return json;
     },
     onSuccess: (data) => {
+      if (!data.access_token) {
+        toast.error(data.message || "Erro ao criar conta");
+        return;
+      }
       toast.success("Registro realizado com sucesso!");
       setToken(data.access_token);
-      document.cookie = `access_token=${data.access_token}; path=/`;
-
       router.push("/tasks");
     },
     onError: (error) => {

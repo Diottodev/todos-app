@@ -53,7 +53,6 @@ export function CreateTaskForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          include: "credentials",
           authorization: `Bearer ${getToken()}`,
         },
         body: JSON.stringify(data),
@@ -61,7 +60,11 @@ export function CreateTaskForm() {
       const json = await res.json();
       return json;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (!data.id) {
+        toast.error(data.message || "Erro ao criar tarefa");
+        return;
+      }
       toast.success("Tarefa criada com sucesso!");
       createTaskForm.reset();
       query.invalidateQueries({ queryKey: ["get-tasks"] });
@@ -74,11 +77,6 @@ export function CreateTaskForm() {
   const onSubmit = (data: Pick<Tasks, "title" | "type">) => {
     createTaskMutation.mutate(data);
   };
-  console.log(createTaskForm.formState.errors);
-  console.log(
-    "CreateTaskForm rendered with default values:",
-    createTaskForm.getValues(),
-  );
   return (
     <Dialog>
       <DialogTrigger asChild>

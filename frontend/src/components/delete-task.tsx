@@ -38,9 +38,9 @@ export function DeleteTaskButton({ id }: DeleteTaskButtonProps) {
       const json = await res.json();
       return json;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["get-tasks"] });
-      toast.success("Tarefa excluída com sucesso!");
+      toast.success(data.message ?? "Tarefa excluída com sucesso!");
     },
     onError: (error) => {
       toast.error("Erro ao excluir tarefa", {

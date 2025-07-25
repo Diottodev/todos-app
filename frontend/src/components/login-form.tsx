@@ -48,9 +48,12 @@ export function LoginForm() {
       return json;
     },
     onSuccess: (data) => {
+      if (!data.access_token) {
+        toast.error(data.message || "Erro ao fazer login");
+        return;
+      }
       toast.success("Login realizado com sucesso!");
       setToken(data.access_token);
-      document.cookie = `access_token=${data.access_token}; path=/`;
       router.push("/tasks");
     },
     onError: (error) => {
