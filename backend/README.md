@@ -12,14 +12,6 @@
 - **Docker**: Containerização do banco de dados.
 - **Jest**: Testes unitários e e2e.
 
-## Futuras melhorias
-
-- Melhorar cobertura de testes no backend
-- Melhorar cobertura de testes Cypress no frontend
-- Refatorar o projeto
-- **Swagger**: Documentação automática da API.
-- **ESLint & Prettier**: Padronização e formatação de código.
-
 ---
 
 ## Como rodar localmente
@@ -154,7 +146,10 @@ O schema do Prisma define os modelos `User` e `Task`, com enumeração para tipo
 
 ---
 
-## Licença
+## Futuras melhorias
+
+- Melhorar cobertura de testes no backend atualmente em media 80% de cov
+- Refatoraração continua
 
 Este projeto está sob licença MIT.
 
