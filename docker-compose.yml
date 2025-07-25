@@ -1,52 +1,52 @@
 version: '3.8'
 
 services:
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-    networks:
-      - app-network
-
-  backend-api:
-    build: ./backend
-    ports:
-      - "8080:8080"
-    environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/todo-database
-    networks:
-      - app-network
-
-  nginx:
-    image: nginx:latest
-    ports:
-      - "60:80"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-    depends_on:
-      - frontend
-      - backend-api
-    networks:
-      - app-network
-
   postgres:
-    image: postgres:17-alpine
+    image: postgres:17
+    container_name: postgres
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: todo-database
-    ports:
-      - "5432:5432"
+      POSTGRES_DB: todos
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - app-network
+    ports:
+      - "5432:5432"
 
-networks:
-  app-network:
-    driver: bridge
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    environment:
+      NEXT_PUBLIC_API_URL: https://localhost:8080
+    ports:
+      - "3000:3000"
+
+  backend-api:
+    container_name: backend-api
+    build:
+      context: ./backend
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/todos
+      NODE_ENV: production
+    ports:
+      - "8080:8080"
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./certs:/etc/nginx/certs
+    depends_on:
+      - frontend
+      - backend-api
 
 volumes:
   postgres_data:
-    driver: local
