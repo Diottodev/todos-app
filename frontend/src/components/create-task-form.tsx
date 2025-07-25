@@ -30,7 +30,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
@@ -84,10 +83,8 @@ export function CreateTaskForm() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[625px]">
         <DialogHeader>
-          <DialogTitle>Editar tarefa</DialogTitle>
-          <DialogDescription>
-            Modifique informações da sua tarefa
-          </DialogDescription>
+          <DialogTitle>Criar tarefa</DialogTitle>
+          <DialogDescription>Preencha os campos necessários</DialogDescription>
         </DialogHeader>
         <Form {...createTaskForm}>
           <form
@@ -101,7 +98,7 @@ export function CreateTaskForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-base font-medium">
-                    Título
+                    Título*
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -128,7 +125,6 @@ export function CreateTaskForm() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectLabel>Tipo da tarefa</SelectLabel>
                           <SelectItem value="WORK">Trabalho</SelectItem>
                           <SelectItem value="PERSONAL">Pessoal</SelectItem>
                           <SelectItem value="STUDY">Estudos</SelectItem>
