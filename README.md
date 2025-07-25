@@ -1,20 +1,29 @@
-# Todos App – Monorepo
+# Taskedtask – Monorepo
 
-O Todos App é uma plataforma moderna para organização de tarefas, pensada para produtividade pessoal e de equipes. Desenvolvido em arquitetura monorepo, integra backend robusto, frontend responsivo e automação CI/CD.
+O Taskedtask é uma plataforma moderna para organização de tarefas, pensada para produtividade pessoal e de equipes. Desenvolvido em arquitetura monorepo, integra backend robusto, frontend responsivo e automação CI/CD.
+
+## Links
+
+- [Frontend](https://app.todolist.diottodev.com)
+- [Backend - Documentação com Swagger](https://api.todolist.diottodev.com/api)
 
 ## Arquitetura
+
 - **Monorepo:** Backend e frontend juntos, facilitando integração e manutenção.
 - **Backend:** API RESTful, autenticação, regras de negócio, persistência de dados.
 - **Frontend:** Interface web, autenticação, integração com API, experiência de usuário moderna.
 - **CI/CD:** Pipelines automatizadas para testes, build, Docker e deploy.
 
 ## Desenho do Sistema
+
 ```
 Usuário <-> Frontend (Next.js) <-> Backend (NestJS) <-> Banco de Dados (PostgreSQL)
 ```
+
 O frontend consome a API do backend, que gerencia autenticação, regras de negócio e persistência dos dados. Toda comunicação é protegida e validada.
 
 ## Principais Funcionalidades
+
 - Cadastro e login de usuários
 - Criação, edição, categorização e exclusão de tarefas
 - Visualização de tarefas por categoria
@@ -23,7 +32,7 @@ O frontend consome a API do backend, que gerencia autenticação, regras de neg�
 
 # Sobre o Projeto
 
-O **Todos App** é uma solução completa para gerenciamento de tarefas, desenvolvida em arquitetura monorepo. O objetivo é fornecer uma experiência moderna, segura e escalável tanto para usuários finais quanto para desenvolvedores.
+O **Taskedtask** é uma solução completa para gerenciamento de tarefas, desenvolvida em arquitetura monorepo. O objetivo é fornecer uma experiência moderna, segura e escalável tanto para usuários finais quanto para desenvolvedores.
 
 ## Para que serve?
 
@@ -41,6 +50,7 @@ Permite que usuários criem, editem, categorizem e excluam tarefas, com autentic
 ## Como rodar localmente
 
 ### Backend
+
 1. Clone o repositório e acesse a pasta do backend:
    ```bash
    git clone https://github.com/Diottodev/todos-app
@@ -65,6 +75,7 @@ Permite que usuários criem, editem, categorizem e excluam tarefas, com autentic
    ```
 
 ### Frontend
+
 1. Instale as dependências:
    ```bash
    cd frontend
@@ -81,21 +92,29 @@ Permite que usuários criem, editem, categorizem e excluam tarefas, com autentic
 ## Como rodar os testes
 
 ### Backend
+
 Execute os testes unitários e de integração:
+
 ```bash
 yarn test
 ```
+
 Para testes end-to-end:
+
 ```bash
 yarn test:e2e
 ```
 
 ### Frontend
+
 Execute os testes end-to-end com Cypress:
+
 ```bash
 yarn cypress open
 ```
+
 Ou rode em modo headless:
+
 ```bash
 yarn cypress run
 ```
@@ -104,7 +123,7 @@ yarn cypress run
 
 ## Como funciona o CI/CD
 
-O CI/CD do Todos App utiliza pipelines modernas para garantir qualidade, integração contínua e deploy automatizado.
+O CI/CD do Taskedtask utiliza pipelines modernas para garantir qualidade, integração contínua e deploy automatizado.
 
 ### Pipeline Atual
 
@@ -120,6 +139,7 @@ O CI/CD do Todos App utiliza pipelines modernas para garantir qualidade, integra
 Os secrets e variáveis de ambiente são gerenciados pelo GitHub Actions para garantir segurança no deploy.
 
 Exemplo de workflow simplificado:
+
 ```yaml
 on:
   push:
