@@ -32,39 +32,85 @@ export function UserMenu() {
   };
   const initials = getInitialsName(user.name);
   return (
-    <div className="fixed top-6 left-18 z-50">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <button>
-            <Avatar className="h-14 w-14 border-2">
-              <AvatarImage alt={user.name || ""} />
-              <AvatarFallback className="text-primary bg-secondary">
-                {initials}
-              </AvatarFallback>
-            </Avatar>
-          </button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align="end"
-          className="min-w-56 rounded-lg p-4"
-          sideOffset={4}
-        >
-          <div className="mb-3 flex items-center gap-3">
-            <Avatar className="h-10 w-10">
-              <AvatarImage alt={user.name || ""} />
-              <AvatarFallback>{initials}</AvatarFallback>
-            </Avatar>
-            <div>
-              <div className="font-semibold text-base">{user.name}</div>
-              <div className="text-xs text-muted-foreground">{user.email}</div>
+    <>
+      <div className="fixed top-6 left-18 z-50 hidden lg:block">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button>
+              <Avatar className="h-14 w-14 border-2">
+                <AvatarImage alt={user.name || ""} />
+                <AvatarFallback className="text-primary bg-secondary">
+                  {initials}
+                </AvatarFallback>
+              </Avatar>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="min-w-56 rounded-lg p-4"
+            sideOffset={4}
+          >
+            <div className="mb-3 flex items-center gap-3">
+              <Avatar className="h-10 w-10">
+                <AvatarImage alt={user.name || ""} />
+                <AvatarFallback>{initials}</AvatarFallback>
+              </Avatar>
+              <div>
+                <div className="font-semibold text-base">{user.name}</div>
+                <div className="text-xs text-muted-foreground">
+                  {user.email}
+                </div>
+              </div>
             </div>
-          </div>
-          <DropdownMenuItem className="gap-3 px-0 p-2" onClick={handleSignOut}>
-            <LogOut className="h-4 w-4 text-muted-foreground" />
-            <span>Sair</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+            <DropdownMenuItem
+              className="gap-3 px-0 p-2"
+              onClick={handleSignOut}
+            >
+              <LogOut className="h-4 w-4 text-muted-foreground" />
+              <span>Sair</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <div className="fixed bottom-10 right-10 z-50 lg:hidden md:block">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button>
+              <Avatar className="h-14 w-14 border-2">
+                <AvatarImage alt={user.name || ""} />
+                <AvatarFallback className="text-primary bg-secondary">
+                  {initials}
+                </AvatarFallback>
+              </Avatar>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="min-w-56 rounded-lg p-4"
+            sideOffset={4}
+          >
+            <div className="mb-3 flex items-center gap-3">
+              <Avatar className="h-10 w-10">
+                <AvatarImage alt={user.name || ""} />
+                <AvatarFallback>{initials}</AvatarFallback>
+              </Avatar>
+              <div>
+                <div className="font-semibold text-base">{user.name}</div>
+                <div className="text-xs text-muted-foreground">
+                  {user.email}
+                </div>
+              </div>
+            </div>
+            <DropdownMenuItem
+              className="gap-3 px-0 p-2"
+              onClick={handleSignOut}
+            >
+              <LogOut className="h-4 w-4 text-muted-foreground" />
+              <span>Sair</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </>
   );
 }

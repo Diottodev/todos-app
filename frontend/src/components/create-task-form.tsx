@@ -34,6 +34,8 @@ import {
   SelectValue,
 } from "./ui/select";
 import { useToken } from "@/hooks/useToken";
+import { RiAddFill } from "@remixicon/react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export function CreateTaskForm() {
   const createTaskForm = useForm<Pick<Tasks, "title" | "type">>({
@@ -79,7 +81,28 @@ export function CreateTaskForm() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Criar nova tarefa</Button>
+        <div className="flex items-center gap-2">
+          <span className="md:hidden">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button size="icon" variant="outline">
+                  <RiAddFill />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Criar nova tarefa</TooltipContent>
+            </Tooltip>
+          </span>
+          <Button
+            className="hidden md:inline-flex lg:hidden"
+            size="sm"
+            variant="outline"
+          >
+            Criar nova tarefa
+          </Button>
+          <Button className="hidden lg:inline-flex" size="lg" variant="outline">
+            Criar nova tarefa
+          </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className="w-full max-w-lg sm:max-w-[625px] p-2 sm:p-6">
         <DialogHeader>

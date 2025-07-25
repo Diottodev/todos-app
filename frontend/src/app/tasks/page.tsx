@@ -33,7 +33,7 @@ export default function TasksPage() {
       {query.isLoading ? (
         <SkeletonTasks />
       ) : (
-        <div className="flex flex-col min-h-screen bg-primary/5 dark:bg-zinc-900">
+        <div className="flex flex-col min-h-screen min-w-screen bg-primary/5 dark:bg-zinc-900">
           <Header />
           <CardTasks tasks={query.data as Tasks[]} />
         </div>

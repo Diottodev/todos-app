@@ -5,10 +5,10 @@ import { Logo } from "./logo";
 
 export function Header() {
   return (
-    <header className="flex  w-screen items-center justify-evenly p-4 bg-white dark:bg-zinc-900 shadow-md">
+    <header className="flex h-28  w-screen items-center justify-evenly p-4 bg-white dark:bg-zinc-900 shadow-md">
       <UserMenu />
       <div className="flex items-center gap-4">
-        <Logo className="w-18 h-18" />
+        <Logo className="hidden sm:block w-18 h-18" />
         <h1 className="text-4xl text-primary font-bold">Minhas Tarefas</h1>
       </div>
       <div className="flex items-center gap-4">
