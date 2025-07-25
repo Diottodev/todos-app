@@ -2,14 +2,12 @@ FROM node:20-alpine
 
 WORKDIR /backend
 
-COPY . .
-
+COPY backend/package.json backend/yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-COPY . .
+COPY backend .
 
 RUN npx prisma generate
-
 RUN yarn build
 
 ENV NODE_ENV=production
