@@ -1,4 +1,4 @@
-# Todos App Backend
+# Backend
 
 > Backend para um aplicativo de gerenciamento de tarefas (todos), desenvolvido com NestJS, Prisma e PostgreSQL. O projeto oferece autenticação JWT, cadastro de usuários, criação e gerenciamento de tarefas categorizadas (pessoal, trabalho, estudo), além de testes automatizados e integração com Docker.
 
@@ -11,6 +11,12 @@
 - **PostgreSQL**: Banco de dados relacional.
 - **Docker**: Containerização do banco de dados.
 - **Jest**: Testes unitários e e2e.
+
+## Futuras melhorias
+
+- Melhorar cobertura de testes no backend
+- Melhorar cobertura de testes Cypress no frontend
+- Refatorar o projeto
 - **Swagger**: Documentação automática da API.
 - **ESLint & Prettier**: Padronização e formatação de código.
 
@@ -19,33 +25,39 @@
 ## Como rodar localmente
 
 1. **Clone o repositório e acesse a pasta do backend:**
+
    ```bash
    git clone https://github.com/Diottodev/todos-app
    cd backend
    ```
 
 2. **Instale as dependências:**
+
    ```bash
    yarn install
    ```
 
 3. **Configure as variáveis de ambiente:**
    Crie um arquivo `.env` com a seguinte variável:
+
    ```
    DATABASE_URL="postgresql://postgres:postgres@localhost:5432/todo-database"
    ```
 
 4. **Suba o banco de dados com Docker:**
+
    ```bash
    docker-compose up -d
    ```
 
 5. **Execute as migrações do Prisma:**
+
    ```bash
    yarn db:migrate
    ```
 
 6. **Inicie o servidor em modo desenvolvimento:**
+
    ```bash
    yarn start:dev
    ```
@@ -58,11 +70,13 @@
 ## Como rodar os testes
 
 - **Testes unitários:**
+
   ```bash
   yarn test
   ```
 
 - **Testes end-to-end:**
+
   ```bash
   yarn test:e2e
   ```
@@ -88,6 +102,7 @@ O projeto está preparado para integração contínua (CI/CD) utilizando platafo
 > **Observação:** O arquivo de configuração do CI/CD (`.github/workflows/ci.yml`) não está presente no projeto. Recomenda-se criar um workflow básico para rodar os comandos acima em cada push/pull request.
 
 Exemplo de workflow para GitHub Actions:
+
 ```yaml
 name: CI
 
@@ -142,6 +157,5 @@ O schema do Prisma define os modelos `User` e `Task`, com enumeração para tipo
 ## Licença
 
 Este projeto está sob licença MIT.
-
 
 ### Desenvolvido por Diottodev
