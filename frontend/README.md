@@ -1,6 +1,12 @@
-# Todos App – Frontend
+# Frontend
 
 Interface web moderna para o gerenciamento de tarefas, conectada ao backend NestJS.
+
+## Futuras melhorias
+
+- Melhorar cobertura de testes no backend
+- Melhorar cobertura de testes Cypress no frontend
+- Refatorar o projeto
 
 ## Funcionalidades
 
@@ -34,15 +40,10 @@ Interface web moderna para o gerenciamento de tarefas, conectada ao backend Nest
 Execute os testes end-to-end com:
 
 ```bash
-yarn cypress:open
-```
 
 ## CI/CD
 
-O pipeline automatiza testes, build e deploy via GitHub Actions:
-
 - Instala dependências
-- Executa testes
 - Faz build e exportação
 - Cria imagem Docker
 - Realiza deploy automático via SSH para EC2
@@ -54,3 +55,4 @@ O deploy é feito automaticamente para uma instância EC2 configurada via secret
 ---
 
 Dúvidas ou sugestões? Abra uma issue ou pull request.
+```
