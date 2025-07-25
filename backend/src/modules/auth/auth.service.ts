@@ -40,7 +40,7 @@ export class AuthService {
     }
     const user = await this.prismaService.user.findUnique({ where: { email } });
     if (!user) {
-      throw new UnauthorizedException('Usuário não encontrado.');
+      throw new BadRequestException('Email não cadastrado.');
     }
     if (user.password !== password) {
       throw new UnauthorizedException('Senha incorreta.');
