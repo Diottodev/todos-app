@@ -4,7 +4,7 @@ O Taskedtask é uma plataforma moderna para organização de tarefas, pensada pa
 
 ## Links
 
-- [Frontend](https://app.todolist.diottodev.com)
+- [Frontend](https://app.todolist.diottodev.com/register)
 - [Backend - Documentação com Swagger](https://api.todolist.diottodev.com/api)
 
 ---

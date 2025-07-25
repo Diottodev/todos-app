@@ -1,5 +1,8 @@
 # Backend
 
+
+- [Backend - Documentação com Swagger](https://api.todolist.diottodev.com/api)
+
 > Backend para um aplicativo de gerenciamento de tarefas (todos), desenvolvido com NestJS, Prisma e PostgreSQL. O projeto oferece autenticação JWT, cadastro de usuários, criação e gerenciamento de tarefas categorizadas (pessoal, trabalho, estudo), além de testes automatizados e integração com Docker.
 
 ---
@@ -11,14 +14,6 @@
 - **PostgreSQL**: Banco de dados relacional.
 - **Docker**: Containerização do banco de dados.
 - **Jest**: Testes unitários e e2e.
-
-## Futuras melhorias
-
-- Melhorar cobertura de testes no backend
-- Melhorar cobertura de testes Cypress no frontend
-- Refatorar o projeto
-- **Swagger**: Documentação automática da API.
-- **ESLint & Prettier**: Padronização e formatação de código.
 
 ---
 
@@ -154,7 +149,10 @@ O schema do Prisma define os modelos `User` e `Task`, com enumeração para tipo
 
 ---
 
-## Licença
+## Futuras melhorias
+
+- Melhorar cobertura de testes no backend atualmente em media 80% de cov
+- Refatoraração continua
 
 Este projeto está sob licença MIT.
 
