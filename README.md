@@ -152,6 +152,13 @@ Secrets e variáveis de ambiente são gerenciados pelo GitHub Actions para garan
 - Após cada execução do pipeline, uma workflow secundária envia notificações para o Discord informando sucesso ou falha do deploy.
 - Existe também uma rotina de health check que verifica periodicamente a saúde da API e envia alertas em caso de falha.
 
+
+## Infraestrutura e Deploy
+
+Após o deploy dos serviços no EC2, o servidor EC2 utiliza o Nginx como load balancer para gerenciar o DNS. O Nginx direciona as requisições do domínio para os links corretos do frontend e backend, garantindo alta disponibilidade e roteamento eficiente entre os serviços.
+
+O **Taskedtask** é uma solução completa para gerenciamento de tarefas, desenvolvida em arquitetura monorepo. O objetivo é fornecer uma experiência moderna, segura e escalável tanto para usuários finais quanto para desenvolvedores.
+
 #### Exemplo de workflow (resumido)
 
 ```yaml
