@@ -17,7 +17,8 @@ services:
   frontend:
     container_name: frontend
     build:
-      context: ./frontend
+      context: .
+      dockerfile: Dockerfile.front
     environment:
       NEXT_PUBLIC_API_URL: https://localhost:8080
     ports:
@@ -26,7 +27,8 @@ services:
   backend-api:
     container_name: backend-api
     build:
-      context: ./backend
+      context: .
+      dockerfile: Dockerfile.api
     depends_on:
       - postgres
     environment:
