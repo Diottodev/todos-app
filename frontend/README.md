@@ -2,12 +2,6 @@
 
 Interface web moderna para o gerenciamento de tarefas, conectada ao backend NestJS.
 
-## Futuras melhorias
-
-- Melhorar cobertura de testes no backend
-- Melhorar cobertura de testes Cypress no frontend
-- Refatorar o projeto
-
 ## Funcionalidades
 
 - Cadastro e login de usuários
@@ -56,3 +50,9 @@ O deploy é feito automaticamente para uma instância EC2 configurada via secret
 
 Dúvidas ou sugestões? Abra uma issue ou pull request.
 ```
+
+
+## Futuras melhorias
+
+- Melhorar cobertura de testes Cypress no frontend
+- Refatoraração continua
