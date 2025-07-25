@@ -57,7 +57,7 @@ jobs:
       - name: Check API Health
         id: health
         run: |
-          API_URL="${{ secrets.API_URL"
+          API_URL="${{ secrets.API_URL }}"
           response=$(curl -s -o /dev/null -w "%{http_code}" $API_URL/health || echo "000")
 
           if [ "$response" -eq 200 ]; then
