@@ -7,6 +7,13 @@ O Taskedtask é uma plataforma moderna para organização de tarefas, pensada pa
 - [Frontend](https://app.todolist.diottodev.com)
 - [Backend - Documentação com Swagger](https://api.todolist.diottodev.com/api)
 
+---
+
+Este repositório contém uma aplicação completa de gerenciamento de tarefas, dividida em dois projetos principais:
+
+- **Backend:** API RESTful construída com NestJS, Prisma e PostgreSQL.
+- **Frontend:** Interface web moderna desenvolvida com Next.js.
+
 ## Arquitetura
 
 - **Monorepo:** Backend e frontend juntos, facilitando integração e manutenção.
@@ -121,58 +128,90 @@ yarn cypress run
 
 ---
 
-## Como funciona o CI/CD
 
-O CI/CD do Taskedtask utiliza pipelines modernas para garantir qualidade, integração contínua e deploy automatizado.
+## Pipeline CI/CD e Notificações
 
-### Pipeline Atual
+O CI/CD do Taskedtask utiliza pipelines modernas para garantir qualidade, integração contínua, deploy automatizado e notificações em tempo real.
 
-- **Disparo:** Pushs ou Pull Requests para a branch principal (`main`)
+### Pepeline 
+
+- **Disparo:** Pushs ou Pull Requests para a branch principal (`master`)
 - **Etapas principais:**
   1. Checkout do código
-  2. Instalação de dependências (backend e frontend)
-  3. Execução dos testes automatizados
-  4. Build dos projetos
-  5. Build das imagens Docker
-  6. Deploy automatizado para ambiente cloud (ex: EC2, Docker Hub, Vercel, etc)
+  2. Instalação de dependências e build do backend (NestJS)
+  3. Execução dos testes automatizados do backend
+  4. Instalação de dependências e build do frontend (Next.js)
+  5. Build das imagens Docker (API e Frontend)
+  6. Push das imagens para o DockerHub
+  7. Deploy automatizado em EC2 via SSH
 
-Os secrets e variáveis de ambiente são gerenciados pelo GitHub Actions para garantir segurança no deploy.
+Secrets e variáveis de ambiente são gerenciados pelo GitHub Actions para garantir segurança.
 
-Exemplo de workflow simplificado:
+#### Notificações e Health Check  
+
+- Após cada execução do pipeline, uma workflow secundária envia notificações para o Discord informando sucesso ou falha do deploy.
+- Existe também uma rotina de health check que verifica periodicamente a saúde da API e envia alertas em caso de falha.
+
+#### Exemplo de workflow (resumido)
 
 ```yaml
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+  build-and-test:
     steps:
       - uses: actions/checkout@v4
-      - name: Instalar dependências
-        run: yarn install --frozen-lockfile
-      - name: Rodar testes
-        run: yarn test
-      - name: Build
-        run: yarn build
-      - name: Docker Build & Push
-        run: |
-          docker build -t todos-app .
-          docker push todos-app
-      - name: Deploy
-        run: ./scripts/deploy.sh
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: cd backend && yarn install
+      - name: Run tests
+        run: cd backend && yarn test
+      - name: Build API
+        run: cd backend && yarn build
+      - name: Install dependencies (frontend)
+        run: cd frontend && yarn install
+      - name: Build frontend
+        run: cd frontend && yarn build
+  dockerize:
+    needs: build-and-test
+    steps:
+      - name: Build and push API Docker image
+        uses: docker/build-push-action@v5
+        with:
+          file: Dockerfile.api
+          push: true
+      - name: Build and push Frontend Docker image
+        uses: docker/build-push-action@v5
+        with:
+          file: Dockerfile.front
+          push: true
+  deploy:
+    needs: dockerize
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/todos-app
+            git pull
+            docker compose build
+            docker compose up -d --remove-orphans
 ```
 
+#### Notificações Discord
+
+Após o deploy, o workflow `notify.yml` envia mensagens para o Discord informando sucesso ou falha, e também realiza health check na API, alertando se houver problemas.
+
 Consulte os arquivos em `.github/workflows/` para detalhes e customizações específicas.
-
----
-
-Este repositório contém uma aplicação completa de gerenciamento de tarefas, dividida em dois projetos principais:
-
-- **Backend:** API RESTful construída com NestJS, Prisma e PostgreSQL.
-- **Frontend:** Interface web moderna desenvolvida com Next.js.
 
 ## Estrutura do Projeto
 
