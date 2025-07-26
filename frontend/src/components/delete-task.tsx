@@ -22,7 +22,7 @@ type DeleteTaskButtonProps = {
 };
 
 export function DeleteTaskButton({ id }: DeleteTaskButtonProps) {
-  const { getToken } = useToken();
+  const { token } = useToken();
   const queryClient = useQueryClient();
   const updateTaskMutation = useMutation({
     mutationFn: async () => {
@@ -32,7 +32,7 @@ export function DeleteTaskButton({ id }: DeleteTaskButtonProps) {
         headers: {
           "Content-Type": "application/json",
           include: "credentials",
-          authorization: `Bearer ${getToken()}`,
+          authorization: `Bearer ${token}`,
         },
       });
       const json = await res.json();

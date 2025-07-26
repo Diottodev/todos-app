@@ -8,15 +8,15 @@ type Props = {
 };
 export function CardTasks({ tasks }: Props) {
   const taskPersonal = React.useMemo(
-    () => tasks.filter((task) => task.type === TaskType.PERSONAL),
+    () => tasks?.filter((task) => task.type === TaskType.PERSONAL),
     [tasks],
   );
   const taskWork = React.useMemo(
-    () => tasks.filter((task) => task.type === TaskType.WORK),
+    () => tasks?.filter((task) => task.type === TaskType.WORK),
     [tasks],
   );
   const taskStudy = React.useMemo(
-    () => tasks.filter((task) => task.type === TaskType.STUDY),
+    () => tasks?.filter((task) => task.type === TaskType.STUDY),
     [tasks],
   );
   return (

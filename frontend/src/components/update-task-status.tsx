@@ -10,7 +10,7 @@ import { UpdateTask } from "./update-task";
 import { DeleteTaskButton } from "./delete-task";
 
 export function UpdateTaskStatus({ id, title, completed, type }: Tasks) {
-  const { getToken } = useToken();
+  const { token } = useToken();
   const queryClient = useQueryClient();
   const updateTaskMutation = useMutation({
     mutationFn: async (data: UpdateTaskStatusData) => {
@@ -19,7 +19,7 @@ export function UpdateTaskStatus({ id, title, completed, type }: Tasks) {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       });

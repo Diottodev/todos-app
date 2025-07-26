@@ -46,7 +46,7 @@ export function UpdateTask({ id, title, type }: UpdateTaskFormData) {
       type: type ?? "PERSONAL",
     },
   });
-  const { getToken } = useToken();
+  const { token } = useToken();
   const query = useQueryClient();
   const updateTaskMutation = useMutation({
     mutationFn: async (data: UpdateTaskFormData) => {
@@ -55,7 +55,7 @@ export function UpdateTask({ id, title, type }: UpdateTaskFormData) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${getToken()}`,
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       });

@@ -46,7 +46,7 @@ export function CreateTaskForm() {
     },
   });
   const query = useQueryClient();
-  const { getToken } = useToken();
+  const { token } = useToken();
   const createTaskMutation = useMutation({
     mutationFn: async (data: Pick<Tasks, "title" | "type">) => {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
@@ -54,7 +54,7 @@ export function CreateTaskForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${getToken()}`,
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       });
