@@ -1,17 +1,28 @@
 "use client";
 
+import { Header } from "@/components/ui/header";
 import { useSession } from "@/hooks/useSession";
 import { useToken } from "@/hooks/useToken";
 import { redirect } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function TasksLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { loading } = useSession();
-  const { getToken } = useToken();
+  const { loading, user } = useSession();
+  const { token } = useToken();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-background to-muted p-4">
@@ -35,9 +46,17 @@ export default function TasksLayout({
       </div>
     );
   }
-  if (!getToken()) {
+
+  if (!user && !token) {
     redirect("/login");
-    return null;
   }
-  return <>{children}</>;
+
+  return (
+    <>
+      <div className="flex flex-col min-h-screen min-w-screen bg-primary/5 dark:bg-zinc-900">
+        <Header />
+        {children}
+      </div>
+    </>
+  );
 }
