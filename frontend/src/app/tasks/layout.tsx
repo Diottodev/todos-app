@@ -11,7 +11,7 @@ export default function TasksLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { loading, user } = useSession();
+  const { loading, user, error } = useSession();
   const { token } = useToken();
   const [isClient, setIsClient] = useState(false);
 
@@ -47,7 +47,7 @@ export default function TasksLayout({
     );
   }
 
-  if (!user && !token) {
+  if ((!user && !token) || error) {
     redirect("/login");
   }
 
