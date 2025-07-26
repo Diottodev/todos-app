@@ -26,7 +26,7 @@ describe('TasksService', () => {
           provide: PrismaService,
           useValue: {
             task: {
-              findUnique: jest.fn((..._args) => { }),
+              findUnique: jest.fn((..._args) => {}),
               create: jest.fn(
                 ({
                   data,
@@ -34,9 +34,9 @@ describe('TasksService', () => {
                   data: Partial<typeof mockTask>;
                 }): typeof mockTask => ({ ...mockTask, ...data }),
               ),
-              update: jest.fn((..._args) => { }),
-              delete: jest.fn((..._args) => { }),
-              findMany: jest.fn((..._args) => { }),
+              update: jest.fn((..._args) => {}),
+              delete: jest.fn((..._args) => {}),
+              findMany: jest.fn((..._args) => {}),
             },
           },
         },
