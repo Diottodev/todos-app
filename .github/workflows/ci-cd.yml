@@ -48,8 +48,8 @@ jobs:
       - name: Run tests
         run: |
           cd backend
-          yarn add -D @types/jest @types/mocha
           yarn add @nestjs/testing
+          yarn add -D @types/jest @types/mocha
           yarn test
 
       - name: Build API
