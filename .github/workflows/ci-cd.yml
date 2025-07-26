@@ -68,7 +68,7 @@ jobs:
           yarn install
 
       - name: Build frontend
-        run: cd frontend && yarn add -D typescript && yarn add -D @tailwindcss/postcss && yarn build
+        run: cd frontend && yarn add -D typescript && yarn add @tailwindcss/postcss && yarn build
 
   dockerize:
     needs: build-and-test
