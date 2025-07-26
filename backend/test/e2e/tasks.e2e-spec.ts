@@ -7,7 +7,7 @@ import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '../../src/modules/auth/auth.guard';
-import { PrismaService } from '../../src/prisma.service';
+import { PrismaService } from '../../src/modules/database/prisma.service';
 
 describe('TasksController (e2e)', () => {
   let app: INestApplication;

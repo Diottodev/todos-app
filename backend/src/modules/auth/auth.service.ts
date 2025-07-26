@@ -4,7 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from '../../prisma.service';
+import { PrismaService } from '../database/prisma.service';
 import { validate as validateEmail } from 'email-validator';
 
 @Injectable()

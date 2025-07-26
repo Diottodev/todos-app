@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TasksService } from '../../src/modules/tasks/tasks.service';
 import { CreateTaskDto } from '../../src/modules/tasks/dto/create-task.dto';
 import { TaskType } from '../../src/common/types';
-import { PrismaService } from '../../src/prisma.service';
+import { PrismaService } from '../../src/modules/database/prisma.service';
 import { AuthGuard } from '../../src/modules/auth/auth.guard';
 
 describe('TasksService', () => {
@@ -26,7 +26,7 @@ describe('TasksService', () => {
           provide: PrismaService,
           useValue: {
             task: {
-              findUnique: jest.fn((..._args) => {}),
+              findUnique: jest.fn((..._args) => { }),
               create: jest.fn(
                 ({
                   data,
@@ -34,9 +34,9 @@ describe('TasksService', () => {
                   data: Partial<typeof mockTask>;
                 }): typeof mockTask => ({ ...mockTask, ...data }),
               ),
-              update: jest.fn((..._args) => {}),
-              delete: jest.fn((..._args) => {}),
-              findMany: jest.fn((..._args) => {}),
+              update: jest.fn((..._args) => { }),
+              delete: jest.fn((..._args) => { }),
+              findMany: jest.fn((..._args) => { }),
             },
           },
         },

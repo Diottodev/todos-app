@@ -29,8 +29,11 @@ async function bootstrap() {
     }),
   );
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-  console.log('Documentação Swagger disponível em: http://localhost:8080/api');
+  SwaggerModule.setup('api/docs', app, document);
+  app.setGlobalPrefix('api'); // Adiciona o prefixo /api em todas as rotas
+  console.log(
+    'Documentação Swagger disponível em: http://localhost:8080/api/docs',
+  );
   await app.listen(process.env.PORT ?? 8080, '0.0.0.0');
 }
 void bootstrap();

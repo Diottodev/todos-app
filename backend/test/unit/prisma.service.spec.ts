@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { PrismaService } from '../../src/prisma.service';
+import { PrismaService } from '../../src/modules/database/prisma.service';
 
 describe('PrismaService', () => {
   let service: PrismaService;
