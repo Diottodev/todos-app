@@ -46,7 +46,10 @@ jobs:
         run: cd backend && npx prisma generate
 
       - name: Run tests
-        run: cd backend && yarn test
+        run: |
+          cd backend
+          yarn add -D @types/jest @types/mocha
+          yarn test
 
       - name: Build API
         run: cd backend && yarn build
