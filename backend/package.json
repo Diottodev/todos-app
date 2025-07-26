@@ -92,6 +92,7 @@
     "collectCoverageFrom": [
       "src/**/*.(t|j)s"
     ],
+    "preset": "ts-jest",
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   }
