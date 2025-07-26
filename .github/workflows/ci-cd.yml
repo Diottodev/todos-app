@@ -42,9 +42,6 @@ jobs:
           yarn cache clean
           yarn
 
-      - name: Install dependencies
-        run: cd backend && yarn
-
       - name: Run prisma client
         run: cd backend && npx prisma generate
 
