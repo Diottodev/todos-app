@@ -35,6 +35,13 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Clean install (backend)
+        run: |
+          cd backend
+          rm -rf node_modules yarn.lock
+          yarn cache clean
+          yarn
+
       - name: Install dependencies
         run: cd backend && yarn
 
