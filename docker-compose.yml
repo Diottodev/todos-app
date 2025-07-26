@@ -1,26 +1,13 @@
 version: "3.8"
 
 services:
-  postgres:
-    image: postgres:17
-    container_name: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: todos
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
   frontend:
     container_name: frontend
     build:
       context: .
       dockerfile: Dockerfile.front
     environment:
-      NEXT_PUBLIC_API_URL: https://localhost:8080
+      NEXT_PUBLIC_API_URL: {{BACKEND_API_URL}}
     ports:
       - "3000:3000"
 
@@ -32,7 +19,7 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/todos
+      DATABASE_URL: {{DATABASE_URL}}
       NODE_ENV: production
     ports:
       - "8080:8080"
