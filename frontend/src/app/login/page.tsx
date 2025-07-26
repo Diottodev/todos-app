@@ -1,8 +1,9 @@
 import { LoginForm } from "@/components/login-form";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Login",
-  description: "Formulário para entrar na aplicação",
+export const metadata: Metadata = {
+  title: "Entre na sua conta - Minhas tarefas",
+  description: "Faça login para acessar suas tarefas",
 };
 
 export default function LoginPage() {
