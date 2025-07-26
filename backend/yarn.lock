@@ -1580,6 +1580,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/email-validator@^1.0.32":
+  version "1.0.32"
+  resolved "https://registry.yarnpkg.com/@types/email-validator/-/email-validator-1.0.32.tgz#1ac6476e472d00ae5fe18f07ff639e8a02b06fa6"
+  integrity sha512-FowX2XQKoLLJPhDr+vd4B2EryjLMqAD1Y0e+MPdhm5kNcEAFxQI9Qkf1Mhz2FeGIRfDmdIrJLmSXd6vwoxEJ6g==
+  dependencies:
+    email-validator "*"
+
 "@types/eslint-scope@^3.7.7":
   version "3.7.7"
   resolved "https://registry.yarnpkg.com/@types/eslint-scope/-/eslint-scope-3.7.7.tgz#3108bd5f18b0cdb277c867b3dd449c9ed7079ac5"
@@ -3081,7 +3088,7 @@ electron-to-chromium@^1.5.173:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.190.tgz#f0ac8be182291a45e8154dbb12f18d2b2318e4ac"
   integrity sha512-k4McmnB2091YIsdCgkS0fMVMPOJgxl93ltFzaryXqwip1AaxeDqKCGLxkXODDA5Ab/D+tV5EL5+aTx76RvLRxw==
 
-email-validator@^2.0.4:
+email-validator@*, email-validator@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/email-validator/-/email-validator-2.0.4.tgz#b8dfaa5d0dae28f1b03c95881d904d4e40bfe7ed"
   integrity sha512-gYCwo7kh5S3IDyZPLZf6hSS0MnZT8QmJFqYvbqlDZSbwdZlY6QZWxJ4i/6UhITOJ4XzyI647Bm2MXKCLqnJ4nQ==
