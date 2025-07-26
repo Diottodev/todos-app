@@ -40,7 +40,7 @@ jobs:
           cd backend
           rm -rf node_modules yarn.lock
           yarn cache clean
-          yarn
+          yarn install
 
       - name: Run prisma client
         run: cd backend && npx prisma generate
@@ -61,7 +61,11 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies (frontend)
-        run: cd frontend && yarn
+        run: |
+          cd frontend
+          rm -rf node_modules yarn.lock
+          yarn cache clean
+          yarn install
 
       - name: Build frontend
         run: cd frontend && yarn build
