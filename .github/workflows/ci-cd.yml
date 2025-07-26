@@ -38,11 +38,11 @@ jobs:
       - name: Install dependencies
         run: cd backend && yarn install
 
-      - name: Run tests
-        run: cd backend && yarn test
-
       - name: Build API
         run: cd backend && yarn build
+        
+      - name: Run tests
+        run: cd backend && yarn test
 
       - name: Set up Node.js (frontend)
         uses: actions/setup-node@v4
