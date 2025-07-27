@@ -5,12 +5,12 @@ WORKDIR /backend
 COPY backend/package.json backend/package-lock.json ./
 RUN npm ci 
 
+ARG DATABASE_URL
+ARG RUN_PRISMA=false
 
 COPY backend .
 
-ARG DATABASE_URL
 ENV DATABASE_URL=$DATABASE_URL
-ARG RUN_PRISMA=false
 
 RUN npx prisma generate
 RUN if [ "$RUN_PRISMA" = "true" ]; then npx prisma migrate deploy; fi

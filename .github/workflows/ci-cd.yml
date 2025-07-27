@@ -117,5 +117,6 @@ jobs:
             export RUN_PRISMA=true
             cd ~/todos-app
             git pull
-            docker compose build
-            docker compose up -d --remove-orphans
+            docker-compose build
+            docker-compose up -d --remove-orphans
+            docker-compose exec backend-api npx prisma migrate deploy
