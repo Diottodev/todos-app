@@ -1,17 +1,14 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 if git diff --cached --name-only | grep '^backend/'; then
   echo "🔍 Verificando backend..."
   cd backend
-  yarn lint-staged
-  yarn lint
-  yarn test
+  npm run lint-staged
+  npm run lint
+  npm run test
 fi
 
 if git diff --cached --name-only | grep '^frontend/'; then
   echo "🔍 Verificando frontend..."
   cd frontend
-  yarn lint-staged
-  yarn lint
+  npm run lint-staged
+  npm run lint
 fi
