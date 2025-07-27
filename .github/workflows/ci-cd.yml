@@ -25,7 +25,6 @@ jobs:
     env:
       BACKEND_API_URL: ${{ secrets.BACKEND_API_URL }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      NODE_ENV: production
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,6 +36,10 @@ jobs:
 
       - name: Install dependencies (backend)
         run: npm ci
+        working-directory: backend
+
+      - name: generate Prisma client
+        run: npx prisma generate
         working-directory: backend
 
       - name: Run tests
