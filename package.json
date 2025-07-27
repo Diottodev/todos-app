@@ -5,7 +5,7 @@
   "author": "DiottoDev <nicodiottodev@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "if [ \"$CI\" != \"true\" ]; then husky install; fi",
     "lint-staged": "lint-staged"
   },
   "devDependencies": {
