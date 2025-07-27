@@ -35,8 +35,12 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install dependencies
-        run: npm cache clean --force && npm install
+      - name: Install dependencies (backend)
+        run: npm install
+        working-directory: backend
+
+      - name: Listar binários do node_modules
+        run: ls -la node_modules/.bin
         working-directory: backend
 
       - name: Run prisma client
@@ -48,7 +52,7 @@ jobs:
         working-directory: backend
 
       - name: Run tests
-        run: npm run test
+        run: npx jest
         working-directory: backend
 
       - name: Build API
@@ -61,7 +65,7 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies (frontend)
-        run: npm cache clean --force &&npm install
+        run: npm install
         working-directory: frontend
 
       - name: Build frontend
