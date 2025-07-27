@@ -16,8 +16,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.api
-    depends_on:
-      - postgres
     environment:
      - DATABASE_URL=${DATABASE_URL}
     ports:
