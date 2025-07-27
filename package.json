@@ -4,10 +4,6 @@
   "repository": "https://github.com/Diottodev/todos-app.git",
   "author": "DiottoDev <nicodiottodev@gmail.com>",
   "license": "MIT",
-  "scripts": {
-    "prepare": "if [ \"$CI\" != \"true\" ]; then husky install; fi",
-    "lint-staged": "lint-staged"
-  },
   "devDependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2"
@@ -16,9 +12,9 @@
     "strip-ansi": "^7.1.0"
   },
   "lint-staged": {
-    "src/*.js": [
-      "npm run format",
-      "npm run test --findRelatedTests --bail"
+    "*.{js,ts,tsx,css,md}": [
+      "eslint --fix",
+      "prettier --write"
     ]
   }
 }
