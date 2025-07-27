@@ -72,6 +72,7 @@ jobs:
           cd frontend
           rm -rf node_modules yarn.lock
           yarn cache clean
+          yarn install
           yarn remove typescript
           yarn add typescript
           yarn add @tailwindcss/postcss
