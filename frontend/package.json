@@ -10,7 +10,7 @@
     "format": "prettier --write .",
     "test": "cypress run --browser chrome --headless",
     "test:open": "cypress open --browser chrome",
-    "prepare": "if [ \"$CI\" != \"true\" ]; then husky install; fi",
+    "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
   "lint-staged": {
