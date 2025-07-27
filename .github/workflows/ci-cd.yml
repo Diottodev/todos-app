@@ -114,9 +114,12 @@ jobs:
           debug: true
           envs: RUN_PRISMA
           script: |
-            export RUN_PRISMA=true
-            cd ~/todos-app
-            git pull
-            docker-compose build
-            docker-compose up -d --remove-orphans
-            docker-compose exec backend-api npx prisma migrate deploy
+              export RUN_PRISMA=true
+              cd ~/todos-app
+              set -o allexport
+              source backend/.env
+              set +o allexport
+              git pull
+              docker compose build
+              docker compose up -d --remove-orphans
+

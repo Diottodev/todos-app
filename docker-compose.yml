@@ -19,6 +19,8 @@ services:
       args:
         RUN_PRISMA: ${RUN_PRISMA}
         DATABASE_URL: ${DATABASE_URL}
+    env_file:
+      - backend/.env
     environment:
       - DATABASE_URL=${DATABASE_URL}
     ports:
