@@ -73,11 +73,6 @@ jobs:
           rm -rf node_modules yarn.lock
           yarn cache clean
           yarn install
-          yarn remove typescript
-          yarn add typescript
-          yarn add @types/node
-          yarn add @tailwindcss/postcss
-          yarn add tw-animate-css
           if [ ! -f tsconfig.json ]; then
             echo '{
               "compilerOptions": {
