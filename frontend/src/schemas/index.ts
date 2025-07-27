@@ -41,12 +41,12 @@ export type Tasks = {
 };
 
 export const taskSchema = z.object({
-  title: z.string("Título é obrigatório"),
+  title: z.string().min(1, "Título é obrigatório"),
   type: z.enum(TaskType),
 });
 
 export const updateTaskSchema = taskSchema.extend({
-  id: z.string("ID é obrigatório"),
+  id: z.string().min(1, "ID é obrigatório"),
 });
 
 export type UpdateTaskFormData = z.infer<typeof updateTaskSchema>;

@@ -22,7 +22,6 @@ import {
   DialogContent,
   DialogTitle,
   DialogDescription,
-  DialogClose,
 } from "./ui/dialog";
 import { DialogHeader, DialogFooter } from "./ui/dialog";
 import {
@@ -38,6 +37,7 @@ import { RiAddFill } from "@remixicon/react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export function CreateTaskForm() {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const createTaskForm = useForm<Pick<Tasks, "title" | "type">>({
     resolver: zodResolver(taskSchema),
     defaultValues: {
@@ -69,17 +69,19 @@ export function CreateTaskForm() {
       toast.success("Tarefa criada com sucesso!");
       createTaskForm.reset();
       query.invalidateQueries({ queryKey: ["get-tasks"] });
+      setDialogOpen(false);
     },
     onError: () => {
       createTaskForm.reset();
       toast.error("Erro ao criar tarefa");
+      setDialogOpen(false);
     },
   });
   const onSubmit = (data: Pick<Tasks, "title" | "type">) => {
     createTaskMutation.mutate(data);
   };
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={(open) => setDialogOpen(!!open)}>
       <DialogTrigger asChild>
         <div className="flex items-center gap-2">
           <span className="md:hidden">
@@ -160,18 +162,16 @@ export function CreateTaskForm() {
               )}
             />
             <DialogFooter className="mt-4">
-              <DialogClose asChild>
-                <Button
-                  type="submit"
-                  disabled={
-                    createTaskForm.formState.isSubmitting ||
-                    createTaskMutation.isPending
-                  }
-                  className="w-full py-2 rounded-lg font-semibold text-sm sm:text-base bg-primary text-white hover:bg-primary/90 transition disabled:opacity-60"
-                >
-                  Criar tarefa
-                </Button>
-              </DialogClose>
+              <Button
+                type="submit"
+                disabled={
+                  createTaskForm.formState.isSubmitting ||
+                  createTaskMutation.isPending
+                }
+                className="w-full py-2 rounded-lg font-semibold text-sm sm:text-base bg-primary text-white hover:bg-primary/90 transition disabled:opacity-60"
+              >
+                Criar tarefa
+              </Button>
             </DialogFooter>
           </form>
         </Form>

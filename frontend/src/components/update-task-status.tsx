@@ -46,7 +46,11 @@ export function UpdateTaskStatus({ id, title, completed, type }: Tasks) {
       onClick={() => handleMutate({ id, title, completed: !completed })}
     >
       <div className="flex items-center gap-2">
-        <Checkbox key={id} className="h-5 w-5" checked={completed} />
+        <Checkbox
+          key={id}
+          className="h-5 w-5 cursor-pointer"
+          checked={completed}
+        />
         <span
           className={cn(
             "cursor-pointer text-lg text-accent-foreground",

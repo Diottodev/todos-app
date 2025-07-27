@@ -22,7 +22,6 @@ import {
   DialogContent,
   DialogTitle,
   DialogDescription,
-  DialogClose,
 } from "./ui/dialog";
 import { Edit } from "lucide-react";
 import { DialogHeader, DialogFooter } from "./ui/dialog";
@@ -38,6 +37,7 @@ import {
 import { useToken } from "@/hooks/useToken";
 
 export function UpdateTask({ id, title, type }: UpdateTaskFormData) {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const updateTaskForm = useForm<UpdateTaskFormData>({
     resolver: zodResolver(updateTaskSchema),
     defaultValues: {
@@ -69,21 +69,30 @@ export function UpdateTask({ id, title, type }: UpdateTaskFormData) {
       }
       toast.success("Tarefa atualizada com sucesso!");
       query.invalidateQueries({ queryKey: ["get-tasks"] });
+      updateTaskForm.reset();
+      setDialogOpen(false);
     },
-    onError: (error) => {
-      toast.error("Erro ao atualizar tarefa", {
-        description:
-          error instanceof Error ? error.message : "Erro desconhecido",
-      });
+    onError: () => {
+      toast.error("Erro ao atualizar tarefa");
+      updateTaskForm.reset();
+      setDialogOpen(false);
     },
   });
   const onSubmit = (data: UpdateTaskFormData) => {
+    if (data.title === title && data.type === type) {
+      toast.info("Nenhum dado foi alterado.");
+      return;
+    }
     updateTaskMutation.mutate(data);
   };
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={(open) => setDialogOpen(!!open)}>
       <DialogTrigger asChild>
-        <Button size="icon" variant="outline" className="hover:bg-primary/70">
+        <Button
+          size="icon"
+          variant="outline"
+          className="hover:bg-primary/70 cursor-pointer"
+        >
           <Edit className="h-4 w-4" />
         </Button>
       </DialogTrigger>
@@ -146,18 +155,16 @@ export function UpdateTask({ id, title, type }: UpdateTaskFormData) {
               )}
             />
             <DialogFooter className="mt-4">
-              <DialogClose asChild>
-                <Button
-                  type="submit"
-                  disabled={
-                    updateTaskForm.formState.isSubmitting ||
-                    updateTaskMutation.isPending
-                  }
-                  className="w-full py-2 rounded-lg font-semibold text-base bg-primary text-white hover:bg-primary/90 transition disabled:opacity-60"
-                >
-                  Modificar
-                </Button>
-              </DialogClose>
+              <Button
+                type="submit"
+                disabled={
+                  updateTaskForm.formState.isSubmitting ||
+                  updateTaskMutation.isPending
+                }
+                className="w-full py-2 rounded-lg font-semibold text-base bg-primary text-white hover:bg-primary/90 transition disabled:opacity-60"
+              >
+                Modificar
+              </Button>
             </DialogFooter>
           </form>
         </Form>

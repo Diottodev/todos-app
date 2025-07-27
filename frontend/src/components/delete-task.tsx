@@ -58,7 +58,7 @@ export function DeleteTaskButton({ id }: DeleteTaskButtonProps) {
         <Button
           size="icon"
           variant="outline"
-          className="hover:bg-destructive/70"
+          className="hover:bg-destructive/70 cursor-pointer"
         >
           <Trash2 className="h-4 w-4" />
         </Button>
