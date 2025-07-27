@@ -112,6 +112,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT || 22 }}
           debug: true
+          envs: RUN_PRISMA
           script: |
             export RUN_PRISMA=true
             cd ~/todos-app
