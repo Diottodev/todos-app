@@ -4,6 +4,9 @@
   "repository": "https://github.com/Diottodev/todos-app.git",
   "author": "DiottoDev <nicodiottodev@gmail.com>",
   "license": "MIT",
+  "scripts": {
+  "postinstall": "husky install"
+},
   "devDependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2"
