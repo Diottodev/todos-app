@@ -56,7 +56,7 @@
     "cypress": "^14.5.2",
     "eslint": "^9",
     "eslint-config-next": "15.4.3",
-    "husky": "^8.0.0",
+    "husky": "^8.0.3",
     "prettier": "^3.6.2",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.5",
