@@ -47,9 +47,6 @@ jobs:
         run: npx prisma generate
         working-directory: backend
 
-      - name: Verificar Jest instalado
-        run: npx jest --version
-        working-directory: backend
 
       - name: Install Jest and ts-jest (backend)
         run: npm install --save-dev jest ts-jest @types/jest
