@@ -35,11 +35,13 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Instalar e rodar testes
+      - name: Install dependencies (backend)
+        run: npm ci
+        working-directory: backend
+
+      - name: Run tests
         run: |
-          npm ci
-          npx prisma generate
-          npx jest
+          ./node_modules/.bin/jest
         working-directory: backend
 
       - name: Build API
