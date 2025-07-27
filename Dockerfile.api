@@ -12,6 +12,8 @@ ARG DATABASE_URL
 ENV DATABASE_URL=$DATABASE_URL
 
 ARG RUN_PRISMA=false
+
+RUN npx prisma generate
 RUN if [ "$RUN_PRISMA" = "true" ]; then npx prisma generate && npx prisma migrate deploy; fi
 RUN npm run build
 
