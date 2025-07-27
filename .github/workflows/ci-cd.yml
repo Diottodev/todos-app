@@ -36,7 +36,7 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies
-        run: npm install
+        run: npm cache clean --force &&npm install
         working-directory: backend
 
       - name: Run prisma client
@@ -57,7 +57,7 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies (frontend)
-        run: npm install
+        run: npm cache clean --force &&npm install
         working-directory: frontend
 
       - name: Build frontend
