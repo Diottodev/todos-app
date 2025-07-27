@@ -18,6 +18,7 @@ services:
       dockerfile: Dockerfile.api
       args:
         RUN_PRISMA: ${RUN_PRISMA}
+        DATABASE_URL: ${DATABASE_URL}
     environment:
       - DATABASE_URL=${DATABASE_URL}
     ports:
