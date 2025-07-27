@@ -2,12 +2,12 @@ FROM node:20-alpine AS builder
 
 WORKDIR /frontend
 
-COPY frontend/package.json frontend/yarn.lock ./
-RUN yarn install --frozen-lockfile
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci --only=production
 
 COPY frontend .
 
-RUN yarn build
+RUN npm run build
 
 FROM node:20-alpine
 
@@ -19,4 +19,4 @@ ENV NODE_ENV=production
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
