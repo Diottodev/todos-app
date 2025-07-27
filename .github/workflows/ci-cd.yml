@@ -35,25 +35,12 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install dependencies (backend)
-        run: npm install
-        working-directory: backend
-
-      - name: Listar binários do node_modules
-        run: ls -la node_modules/.bin
-        working-directory: backend
-
-      - name: Run prisma client
-        run: npx prisma generate
-        working-directory: backend
-
-
-      - name: Install Jest and ts-jest (backend)
-        run: npm install --save-dev jest ts-jest @types/jest
-        working-directory: backend
-
-      - name: Run tests
-        run: npx jest
+      - name: Instalar e rodar testes
+        run: |
+          npm install
+          npm install --save-dev jest ts-jest @types/jest
+          npx prisma generate
+          npx jest
         working-directory: backend
 
       - name: Build API
