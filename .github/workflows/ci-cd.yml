@@ -37,7 +37,7 @@ jobs:
 
       - name: Instalar e rodar testes
         run: |
-          rm -rf node_modules package-lock.json
+          rm -rf node_modules
           npm install
           npx prisma generate
           npx jest
@@ -53,7 +53,7 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies (frontend)
-        run: rm -rf node_modules package-lock.json && npm install
+        run: rm -rf node_modules && npm install
         working-directory: frontend
 
       - name: Build frontend
