@@ -8,6 +8,7 @@ RUN npm ci
 COPY backend .
 
 RUN npx prisma generate
+RUN npx prisma migrate deploy
 RUN npm run build
 
 ENV NODE_ENV=production
