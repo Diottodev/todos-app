@@ -16,10 +16,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.api
+      args:
+      RUN_PRISMA: ${RUN_PRISMA}
     environment:
       - DATABASE_URL=${DATABASE_URL}
-    args:
-      RUN_PRISMA: ${RUN_PRISMA}
     ports:
       - "8080:8080"
 
