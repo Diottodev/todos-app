@@ -63,34 +63,11 @@ jobs:
       - name: Install dependencies (frontend)
         run: |
           cd frontend
-          rm -rf node_modules yarn.lock
-          yarn cache clean
-          yarn install
+          yarn install --frozen-lockfile
 
       - name: Build frontend
         run: |
           cd frontend
-          yarn add typescript
-          yarn add @types/node
-          yarn add @tailwindcss/postcss
-          yarn add tw-animate-css
-          yarn install
-          if [ ! -f tsconfig.json ]; then
-            echo '{
-              "compilerOptions": {
-                "target": "esnext",
-                "module": "esnext",
-                "jsx": "preserve",
-                "strict": true,
-                "moduleResolution": "node",
-                "esModuleInterop": true,
-                "skipLibCheck": true,
-                "forceConsistentCasingInFileNames": true
-              },
-              "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-              "exclude": ["node_modules"]
-            }' > tsconfig.json
-          fi
           yarn build
 
   dockerize:
