@@ -68,7 +68,30 @@ jobs:
           yarn install
 
       - name: Build frontend
-        run: cd frontend && yarn add typescript && yarn add @tailwindcss/postcss && yarn build
+        run: |
+          cd frontend
+          rm -rf node_modules yarn.lock
+          yarn cache clean
+          yarn remove typescript
+          yarn add typescript
+          yarn add @tailwindcss/postcss
+          if [ ! -f tsconfig.json ]; then
+            echo '{
+              "compilerOptions": {
+                "target": "esnext",
+                "module": "esnext",
+                "jsx": "preserve",
+                "strict": true,
+                "moduleResolution": "node",
+                "esModuleInterop": true,
+                "skipLibCheck": true,
+                "forceConsistentCasingInFileNames": true
+              },
+              "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+              "exclude": ["node_modules"]
+            }' > tsconfig.json
+          fi
+          yarn build
 
   dockerize:
     needs: build-and-test
