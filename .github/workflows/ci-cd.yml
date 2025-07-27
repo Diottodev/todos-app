@@ -87,6 +87,8 @@ jobs:
           file: Dockerfile.api
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/todos-api:latest
+          build-args: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       - name: Build and push Frontend Docker image
         uses: docker/build-push-action@v5
