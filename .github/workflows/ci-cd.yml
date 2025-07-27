@@ -36,20 +36,16 @@ jobs:
           node-version: "20"
 
       - name: Clean install (backend)
-        run: |
-          cd backend
-          yarn install
+        run: cd backend && npm install
 
       - name: Run prisma client
         run: cd backend && npx prisma generate
 
       - name: Run tests
-        run: |
-          cd backend
-          yarn test
+        run: cd backend && npm run test
 
       - name: Build API
-        run: cd backend && yarn build
+        run: cd backend && npm run build
 
       - name: Set up Node.js (frontend)
         uses: actions/setup-node@v4
@@ -57,12 +53,10 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies (frontend)
-        run: |
-          cd frontend
-          yarn install
+        run: cd frontend && npm install
 
       - name: Build frontend
-        run: cd frontend && build
+        run: cd frontend && npm run build
 
   dockerize:
     needs: build-and-test
