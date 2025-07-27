@@ -51,6 +51,10 @@ jobs:
         run: npx jest --version
         working-directory: backend
 
+      - name: Install Jest and ts-jest (backend)
+        run: npm install --save-dev jest ts-jest @types/jest
+        working-directory: backend
+
       - name: Run tests
         run: npx jest
         working-directory: backend
