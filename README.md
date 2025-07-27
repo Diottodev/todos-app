@@ -5,7 +5,7 @@ O `Minhas tarefas` - Todo app - é uma plataforma moderna para organização de 
 ## Links
 
 - [Frontend](https://app.todolist.diottodev.com/register)
-- [Backend - Documentação com Swagger](https://api.todolist.diottodev.com/api)
+- [Backend - Documentação com Swagger](https://api.todolist.diottodev.com/api/docs)
 
 ---
 
