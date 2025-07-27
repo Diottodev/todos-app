@@ -37,7 +37,6 @@ jobs:
 
       - name: Instalar e rodar testes
         run: |
-          rm -rf node_modules
           npm ci
           npx prisma generate
           npx jest
@@ -53,7 +52,7 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies (frontend)
-        run: rm -rf node_modules && npm ci
+        run: npm ci
         working-directory: frontend
 
       - name: Build frontend
