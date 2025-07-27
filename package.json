@@ -5,7 +5,8 @@
   "author": "DiottoDev <nicodiottodev@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "devDependencies": {
     "husky": "^9.1.7",
@@ -15,9 +16,9 @@
     "strip-ansi": "^7.1.0"
   },
   "lint-staged": {
-    "*.{js,ts,tsx,css,md}": [
-      "eslint --fix",
-      "prettier --write"
+    "src/*.js": [
+      "npm run format",
+      "npm run test --findRelatedTests --bail"
     ]
   }
 }
