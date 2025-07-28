@@ -65,7 +65,7 @@ Permite que usuários criem, editem, categorizem e excluam tarefas, com autentic
    ```
 2. Instale as dependências:
    ```bash
-   yarn install
+   npm install
    ```
 3. Configure as variáveis de ambiente (`.env`):
    ```env
@@ -77,8 +77,8 @@ Permite que usuários criem, editem, categorizem e excluam tarefas, com autentic
    ```
 5. Rode as migrações e inicie o servidor:
    ```bash
-   yarn prisma migrate dev
-   yarn start:dev
+   npm run prisma:migrate:dev
+   npm run start:dev
    ```
 
 ### Frontend
@@ -86,11 +86,11 @@ Permite que usuários criem, editem, categorizem e excluam tarefas, com autentic
 1. Instale as dependências:
    ```bash
    cd frontend
-   yarn install
+   npm install
    ```
 2. Inicie o servidor de desenvolvimento:
    ```bash
-   yarn dev
+   npm run dev
    ```
 3. Acesse [http://localhost:3000](http://localhost:3000) no navegador.
 
@@ -103,13 +103,13 @@ Permite que usuários criem, editem, categorizem e excluam tarefas, com autentic
 Execute os testes unitários e de integração:
 
 ```bash
-yarn test
+npm run test
 ```
 
 Para testes end-to-end:
 
 ```bash
-yarn test:e2e
+npm run test:e2e
 ```
 
 ### Frontend
@@ -117,39 +117,72 @@ yarn test:e2e
 Execute os testes end-to-end com Cypress:
 
 ```bash
-yarn cypress open
+npm run cypress:open
 ```
 
 Ou rode em modo headless:
 
 ```bash
-yarn cypress run
+npm run cypress:run
 ```
 
 ---
 
-## Pipeline CI/CD e Notificações
+## Pipeline CI/CD (GitHub Actions)
 
-O CI/CD do `Minhas tarefas` - Todo app - utiliza pipelines modernas para garantir qualidade, integração contínua, deploy automatizado e notificações em tempo real.
+O CI/CD utiliza GitHub Actions e é disparado em push/pull request para a branch `master`.
 
-### Pepeline
+### Etapas principais:
 
-- **Disparo:** Pushs ou Pull Requests para a branch principal (`master`)
-- **Etapas principais:**
-  1. Checkout do código
-  2. Instalação de dependências e build do backend (NestJS)
-  3. Execução dos testes automatizados do backend
-  4. Instalação de dependências e build do frontend (Next.js)
-  5. Build das imagens Docker (API e Frontend)
-  6. Push das imagens para o DockerHub
-  7. Deploy automatizado em EC2 via SSH
+1. **Checkout do código**
+2. **Instalação de dependências e build do backend** (`npm install`, `npm run build`)
+3. **Testes automatizados backend** (`npm run test`)
+4. **Instalação de dependências e build do frontend** (`npm install`, `npm run build`)
+5. **Testes automatizados frontend** (`npm run test`)
+6. **Build e push das imagens Docker** (API e Frontend)
+7. **Deploy automatizado em EC2 via SSH**
 
-Secrets e variáveis de ambiente são gerenciados pelo GitHub Actions para garantir segurança.
+Secrets e variáveis de ambiente são gerenciados pelo GitHub Actions.
 
-#### Notificações e Health Check
+### Notificações e Health Check
 
 - Após cada execução do pipeline, uma workflow secundária envia notificações para o Discord informando sucesso ou falha do deploy.
-- Existe também uma rotina de health check que verifica periodicamente a saúde da API e envia alertas em caso de falha.
+- Existe uma rotina de health check que verifica periodicamente a saúde da API e envia alertas em caso de falha.
+
+#### Exemplo de workflow (resumido)
+
+```yaml
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  build-and-test:
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: npm install
+        working-directory: backend
+      - name: Run tests
+        run: npm run test
+        working-directory: backend
+      - name: Build API
+        run: npm run build
+        working-directory: backend
+      - name: Install dependencies (frontend)
+        run: npm install
+        working-directory: frontend
+      - name: Build frontend
+        run: npm run build
+        working-directory: frontend
+```
+
+Veja o arquivo `.github/workflows/ci-cd.yml` para detalhes completos.
 
 ## Infraestrutura e Deploy
 
@@ -174,15 +207,15 @@ jobs:
         with:
           node-version: "20"
       - name: Install dependencies
-        run: cd backend && yarn install
+        run: cd backend && npm install
       - name: Run tests
-        run: cd backend && yarn test
+        run: cd backend && npm run test
       - name: Build API
-        run: cd backend && yarn build
+        run: cd backend && npm run build
       - name: Install dependencies (frontend)
-        run: cd frontend && yarn install
+        run: cd frontend && npm install
       - name: Build frontend
-        run: cd frontend && yarn build
+        run: cd frontend && npm run build
   dockerize:
     needs: build-and-test
     steps:
