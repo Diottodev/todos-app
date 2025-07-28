@@ -1,6 +1,5 @@
 # Backend
 
-
 - [Backend - Documentação com Swagger](https://api.todolist.diottodev.com/api/docs)
 
 > Backend para um aplicativo de gerenciamento de tarefas (todos), desenvolvido com NestJS, Prisma e PostgreSQL. O projeto oferece autenticação JWT, cadastro de usuários, criação e gerenciamento de tarefas categorizadas (pessoal, trabalho, estudo), além de testes automatizados e integração com Docker.
@@ -29,7 +28,7 @@
 2. **Instale as dependências:**
 
    ```bash
-   yarn install
+   npm install
    ```
 
 3. **Configure as variáveis de ambiente:**
@@ -48,13 +47,13 @@
 5. **Execute as migrações do Prisma:**
 
    ```bash
-   yarn db:migrate
+   npm run db:migrate
    ```
 
 6. **Inicie o servidor em modo desenvolvimento:**
 
    ```bash
-   yarn start:dev
+   npm run start:dev
    ```
 
 7. **Acesse a documentação Swagger:**
@@ -67,13 +66,13 @@
 - **Testes unitários:**
 
   ```bash
-  yarn test
+  npm run test
   ```
 
 - **Testes end-to-end:**
 
   ```bash
-  yarn test:e2e
+  npm run test:e2e
   ```
 
 - **Cobertura dos testes:**
