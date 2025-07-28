@@ -7,8 +7,6 @@ import {
   Param,
   Delete,
   Req,
-  NotFoundException,
-  UnauthorizedException,
   HttpCode,
   HttpStatus,
   Put,
@@ -68,12 +66,9 @@ export class TasksController {
   async create(
     @Body() createTaskDto: CreateTaskDto,
     @Req() req: AuthenticatedRequest,
-  ): Promise<Task | typeof Error> {
-    if (!req.user || !req.user.id) {
-      throw new UnauthorizedException('Usuário não autenticado');
-    }
-    const userId = req.user.id;
-    return this.tasksService.create(createTaskDto, userId);
+  ): Promise<Task> {
+    const userId = req.user?.id;
+    return this.tasksService.create(createTaskDto, userId as string);
   }
 
   @Get()
@@ -103,11 +98,10 @@ export class TasksController {
   })
   @HttpCode(HttpStatus.OK)
   async findAll(@Req() req: AuthenticatedRequest): Promise<TaskResponseDto[]> {
-    if (!req.user || !req.user.id) {
-      throw new UnauthorizedException('Usuário não autenticado');
-    }
-    const userId = req.user.id;
-    return (await this.tasksService.findAll(userId)) as TaskResponseDto[];
+    const userId = req.user?.id;
+    return (await this.tasksService.findAll(
+      userId as string,
+    )) as TaskResponseDto[];
   }
 
   @Get(':id')
@@ -138,16 +132,9 @@ export class TasksController {
   async findOne(
     @Param('id') id: string,
     @Req() req: AuthenticatedRequest,
-  ): Promise<Task> {
-    if (!req.user || !req.user.id) {
-      throw new UnauthorizedException('Usuário não autenticado');
-    }
-    const userId = req.user.id;
-    const task = await this.tasksService.findOne(id, userId);
-    if (!task) {
-      throw new NotFoundException('Tarefa não encontrada');
-    }
-    return task;
+  ): Promise<Task | null> {
+    const userId = req.user?.id;
+    return await this.tasksService.findOne(id, userId as string);
   }
 
   @Put(':id/edit')
@@ -181,15 +168,8 @@ export class TasksController {
     @Body() updateTaskDto: UpdateTaskDto,
     @Req() req: AuthenticatedRequest,
   ): Promise<Task> {
-    if (!req.user || !req.user.id) {
-      throw new UnauthorizedException('Usuário não autenticado');
-    }
-    const userId = req.user.id;
-    const updated = await this.tasksService.update(id, updateTaskDto, userId);
-    if (!updated) {
-      throw new NotFoundException('Tarefa não encontrada');
-    }
-    return updated;
+    const userId = req.user?.id;
+    return await this.tasksService.update(id, updateTaskDto, userId as string);
   }
 
   @Patch(':id/complete')
@@ -225,15 +205,8 @@ export class TasksController {
     @Body() updateTaskDto: UpdateTaskDto,
     @Req() req: AuthenticatedRequest,
   ): Promise<Task> {
-    if (!req.user || !req.user.id) {
-      throw new UnauthorizedException('Usuário não autenticado');
-    }
-    const userId = req.user.id;
-    const updated = await this.tasksService.update(id, updateTaskDto, userId);
-    if (!updated) {
-      throw new NotFoundException('Tarefa não encontrada');
-    }
-    return updated;
+    const userId = req.user?.id;
+    return await this.tasksService.update(id, updateTaskDto, userId as string);
   }
 
   @Delete(':id')
@@ -255,14 +228,7 @@ export class TasksController {
     @Param('id') id: string,
     @Req() req: AuthenticatedRequest,
   ): Promise<{ message: string }> {
-    if (!req.user || !req.user.id) {
-      throw new UnauthorizedException('Usuário não autenticado');
-    }
-    const userId = req.user.id;
-    const removed = await this.tasksService.remove(id, userId);
-    if (!removed) {
-      throw new NotFoundException('Tarefa não encontrada');
-    }
-    return { message: 'Tarefa removida com sucesso.' };
+    const userId = req.user?.id;
+    return await this.tasksService.remove(id, userId as string);
   }
 }

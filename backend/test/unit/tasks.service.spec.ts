@@ -72,7 +72,7 @@ describe('TasksService', () => {
       completed: false,
     };
     await expect(service.create(dto, '')).rejects.toThrow(
-      'ID do usuário é obrigatório',
+      'Usuário não autenticado',
     );
   });
 
@@ -158,11 +158,7 @@ describe('TasksService', () => {
   });
   it('should remove a task', async () => {
     const mockTask = {
-      id: '1',
-      title: 'Test',
-      type: TaskType.PERSONAL,
-      completed: false,
-      userId: '1',
+      message: 'Tarefa removida com sucesso.',
     };
     (service['prisma'].task.delete as jest.Mock).mockResolvedValueOnce(
       mockTask,

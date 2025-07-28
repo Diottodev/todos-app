@@ -1,13 +1,8 @@
-import {
-  Injectable,
-  BadRequestException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task } from '@prisma/client';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class TasksService {
@@ -15,7 +10,10 @@ export class TasksService {
 
   async create(createTaskDto: CreateTaskDto, userId: string): Promise<Task> {
     if (!userId) {
-      throw new BadRequestException('ID do usuário é obrigatório');
+      throw new Error('Usuário não autenticado');
+    }
+    if (!createTaskDto.title) {
+      throw new Error('Título da tarefa é obrigatório');
     }
     return this.prisma.task.create({
       data: {
@@ -28,19 +26,28 @@ export class TasksService {
   }
 
   async findAll(userId: string): Promise<Task[]> {
+    if (!userId) {
+      throw new Error('Usuário não autenticado');
+    }
     return this.prisma.task.findMany({
       where: { userId },
     });
   }
 
-  async findOne(id: string, userId: string): Promise<Task> {
-    const task = await this.prisma.task.findUnique({
+  async findOne(id: string, userId: string): Promise<Task | null> {
+    if (!userId) {
+      throw new Error('Usuário não autenticado');
+    }
+    if (!id) {
+      throw new Error('ID da tarefa é obrigatório');
+    }
+    const result = await this.prisma.task.findUnique({
       where: { id, userId },
     });
-    if (!task) {
-      throw new NotFoundException('Tarefa não encontrada');
+    if (!result) {
+      throw new Error('Tarefa não encontrada');
     }
-    return task;
+    return result;
   }
 
   async update(
@@ -48,35 +55,31 @@ export class TasksService {
     updateTaskDto: UpdateTaskDto,
     userId: string,
   ): Promise<Task> {
-    try {
-      return await this.prisma.task.update({
-        where: { id, userId },
-        data: updateTaskDto,
-      });
-    } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
-        throw new NotFoundException('Tarefa não encontrada');
-      }
-      throw error;
+    if (!userId) {
+      throw new Error('Usuário não autenticado');
     }
+    if (!id) {
+      throw new Error('ID da tarefa é obrigatório');
+    }
+    if (!updateTaskDto.title) {
+      throw new Error('Título da tarefa é obrigatório');
+    }
+    return await this.prisma.task.update({
+      where: { id, userId },
+      data: updateTaskDto,
+    });
   }
 
-  async remove(id: string, userId: string): Promise<Task> {
-    try {
-      return await this.prisma.task.delete({
-        where: { id, userId },
-      });
-    } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
-        throw new NotFoundException('Tarefa não encontrada');
-      }
-      throw error;
+  async remove(id: string, userId: string): Promise<{ message: string }> {
+    if (!userId) {
+      throw new Error('Usuário não autenticado');
     }
+    const removed = await this.prisma.task.delete({
+      where: { id, userId },
+    });
+    if (!removed) {
+      throw new Error('Tarefa não encontrada');
+    }
+    return { message: 'Tarefa removida com sucesso.' };
   }
 }

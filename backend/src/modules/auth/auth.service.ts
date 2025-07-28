@@ -43,7 +43,7 @@ export class AuthService {
       throw new BadRequestException('Email não cadastrado.');
     }
     if (user.password !== password) {
-      throw new UnauthorizedException('Senha incorreta.');
+      throw new UnauthorizedException('Email ou senha incorretos.');
     }
     const payload = { sub: user.id, email: user.email };
     return {
