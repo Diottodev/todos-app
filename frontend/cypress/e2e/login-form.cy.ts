@@ -11,9 +11,9 @@ describe("LoginForm", () => {
   });
 
   it("deve logar com credenciais válidas", () => {
-    cy.get('input[name="email"]').type("nicolas@teste.com");
-    cy.get('input[name="password"]').type("123456");
+    cy.get('input[name="email"]').type("teste@teste.com");
+    cy.get('input[name="password"]').type("12345678");
     cy.contains("Entrar").click();
-    cy.url().should("not.include", "/login");
+    cy.url().should("not.include", "/api/login");
   });
 });

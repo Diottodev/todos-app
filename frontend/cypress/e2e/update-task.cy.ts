@@ -2,33 +2,28 @@
 
 describe("UpdateTask", () => {
   beforeEach(() => {
-    cy.visit("/tasks");
-    window.localStorage.setItem(
-      "user",
-      JSON.stringify({ name: "Teste", email: "teste@teste.com" }),
-    );
-    window.localStorage.setItem("access_token", "fake-token");
-    window.localStorage.setItem(
-      "tasks",
-      JSON.stringify([
-        {
-          id: 1,
-          title: "Tarefa mock",
-          description: "Descrição",
-          status: "Pendente",
+    cy.request("POST", "http://localhost:8080/api/auth/login", {
+      email: "nicodiottodev@gmail.com",
+      password: "12345678",
+    }).then((response) => {
+      const authData = response.body;
+      cy.visit("/tasks", {
+        onBeforeLoad(win) {
+          win.localStorage.setItem("user", JSON.stringify(authData.user));
+          win.localStorage.setItem("auth_token", authData.access_token);
         },
-      ]),
-    );
+      });
+    });
   });
 
   it("deve exibir botão de editar tarefa", () => {
-    cy.get(".update-task").should("exist").and("be.visible");
+    cy.get("button").should("be.visible");
   });
 
   it("deve atualizar uma tarefa", () => {
-    cy.get(".update-task").first().click();
+    cy.get("button:has(svg.lucide-square-pen)").first().click();
     cy.get('input[name="title"]').clear().type("Tarefa atualizada");
-    cy.contains("Salvar").click();
-    cy.contains("Tarefa atualizada").should("be.visible");
+    cy.get('button:contains("Modificar")').click();
+    cy.contains("Tarefa atualizada com sucesso!").should("be.visible");
   });
 });

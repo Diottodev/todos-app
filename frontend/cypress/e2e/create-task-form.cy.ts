@@ -7,13 +7,18 @@
 
 describe("CreateTaskForm", () => {
   beforeEach(() => {
-    cy.mockTasks();
-    cy.visit("/tasks");
-    window.localStorage.setItem(
-      "user",
-      JSON.stringify({ name: "Teste", email: "teste@teste.com" }),
-    );
-    window.localStorage.setItem("access_token", "fake-token");
+    cy.request("POST", "http://localhost:8080/api/auth/login", {
+      email: "nicodiottodev@gmail.com",
+      password: "12345678",
+    }).then((response) => {
+      const authData = response.body;
+      cy.visit("/tasks", {
+        onBeforeLoad(win) {
+          win.localStorage.setItem("user", JSON.stringify(authData.user));
+          win.localStorage.setItem("auth_token", authData.access_token);
+        },
+      });
+    });
   });
 
   it("deve exibir o formulário de criação de tarefa", () => {
@@ -21,8 +26,9 @@ describe("CreateTaskForm", () => {
   });
 
   it("deve criar uma nova tarefa", () => {
+    cy.contains("Criar nova tarefa").click();
     cy.get('input[name="title"]').type("Nova tarefa");
-    cy.contains("Criar").click();
+    cy.get('button[type="submit"]').click();
     cy.contains("Nova tarefa").should("be.visible");
   });
 });

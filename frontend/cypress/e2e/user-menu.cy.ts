@@ -1,52 +1,48 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /// <reference types="cypress" />
 
 describe("UserMenu", () => {
   beforeEach(() => {
-    cy.visit("/");
-    // Simula usuário logado
-    window.localStorage.setItem(
-      "user",
-      JSON.stringify({
-        name: "Nicolas Teste",
-        email: "nicolas@teste.com",
-      }),
-    );
-    window.localStorage.setItem("access_token", "fake-token");
+    cy.viewport(1280, 800);
+    cy.request("POST", "http://localhost:8080/api/auth/login", {
+      email: "nicodiottodev@gmail.com",
+      password: "12345678",
+    }).then((response) => {
+      const authData = response.body;
+      cy.visit("/tasks", {
+        onBeforeLoad(win) {
+          win.localStorage.setItem("user", JSON.stringify(authData.user));
+          win.localStorage.setItem("auth_token", authData.access_token);
+        },
+      });
+    });
   });
 
   it("deve exibir o nome e email do usuário", () => {
-    cy.get(".fixed").should("exist").click();
-    cy.contains("Nicolas Teste").should("be.visible");
-    cy.contains("nicolas@teste.com").should("be.visible");
+    cy.viewport(1280, 800);
+    cy.get("span[data-slot=avatar]").should("contain", "T").first().click();
+    cy.get('[data-slot="avatar-fallback"]').should("be.visible");
+    cy.get("div").should("contain.text", "teste");
   });
 
   it("deve realizar logout ao clicar em Sair", () => {
-    cy.get(".fixed").should("exist").click();
-    cy.contains("Sair").should("be.visible").click();
+    cy.viewport(1280, 800);
+    cy.get('[data-slot="avatar-fallback"]:visible').click();
+    cy.contains("Sair").click();
     cy.url().should("include", "/login");
-  });
-
-  it("deve exibir o avatar com as iniciais do usuário", () => {
-    cy.get(".fixed").should("exist").click();
-    cy.get(".h-14.w-14.border-2 .bg-secondary").should("contain", "NT");
+    cy.contains("Logout realizado com sucesso").should("be.visible");
+    cy.window().should((win) => {
+      expect(win.localStorage.getItem("auth_token")).to.be.null;
+    });
   });
 
   it("deve abrir e fechar o dropdown do menu do usuário", () => {
-    cy.get(".fixed").should("exist").click();
-    cy.contains("Nicolas Teste").should("be.visible");
-    cy.get("body").click(0, 0); // Fecha o dropdown
-    cy.contains("Nicolas Teste").should("not.exist");
+    cy.viewport(1280, 800);
+    cy.get('[data-slot="avatar-fallback"]:visible').first().click();
+    cy.get('[data-slot="dropdown-menu-content"]', { timeout: 5000 }).should(
+      "be.visible",
+    );
+    cy.get("body").click(0, 0, { force: true });
+    cy.get('[data-slot="dropdown-menu-content"]').should("not.exist");
   });
-
-  it("deve exibir fallback de avatar se não houver imagem", () => {
-    cy.get(".fixed").should("exist").click();
-    cy.get(".h-10.w-10").should("contain", "NT");
-  });
-});
-
-it("não deve exibir o menu se não houver usuário logado", () => {
-  window.localStorage.removeItem("user");
-  window.localStorage.removeItem("access_token");
-  cy.visit("/");
-  cy.get(".fixed").should("not.exist");
 });

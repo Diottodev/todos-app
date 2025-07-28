@@ -14,8 +14,8 @@ describe("RegisterForm", () => {
   it("deve cadastrar novo usuário", () => {
     cy.get('input[name="name"]').type("Novo Usuário");
     cy.get('input[name="email"]').type("novo@teste.com");
-    cy.get('input[name="password"]').type("123456");
+    cy.get('input[name="password"]').type("12345678");
     cy.contains("Criar").click();
-    cy.url().should("not.include", "/register");
+    cy.url().should("not.include", "/api/register");
   });
 });

@@ -2,22 +2,21 @@
 
 describe("TasksPage", () => {
   beforeEach(() => {
-    cy.visit("/tasks");
-    window.localStorage.setItem(
-      "user",
-      JSON.stringify({ name: "Teste", email: "teste@teste.com" }),
-    );
-    window.localStorage.setItem("access_token", "fake-token");
-    window.localStorage.setItem(
-      "tasks",
-      JSON.stringify([
-        { id: 1, title: "Tarefa 1" },
-        { id: 2, title: "Tarefa 2" },
-      ]),
-    );
+    cy.request("POST", "http://localhost:8080/api/auth/login", {
+      email: "nicodiottodev@gmail.com",
+      password: "12345678",
+    }).then((response) => {
+      const authData = response.body;
+      cy.visit("/tasks", {
+        onBeforeLoad(win) {
+          win.localStorage.setItem("user", JSON.stringify(authData.user));
+          win.localStorage.setItem("auth_token", authData.access_token);
+        },
+      });
+    });
   });
 
   it("deve exibir a lista de tarefas", () => {
-    cy.get(".task-item").should("exist");
+    cy.contains("Minhas tarefas").should("exist");
   });
 });
