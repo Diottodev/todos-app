@@ -32,6 +32,7 @@ export function UpdateTaskStatus({ id, title, completed, type }: Tasks) {
         return;
       }
       queryClient.invalidateQueries({ queryKey: ["get-tasks"] });
+      toast.success("Tarefa concluída!");
     },
     onError: () => {
       toast.error("Erro ao atualizar status da tarefa");
@@ -47,11 +48,13 @@ export function UpdateTaskStatus({ id, title, completed, type }: Tasks) {
     >
       <div className="flex items-center gap-2">
         <Checkbox
+          data-testid="task-checkbox"
           key={id}
           className="h-5 w-5 cursor-pointer"
           checked={completed}
         />
         <span
+          data-testid="task-title"
           className={cn(
             "cursor-pointer text-lg text-accent-foreground",
             completed && "text-muted-foreground line-through",

@@ -6,17 +6,27 @@ import { Card } from "./ui/card";
 type Props = {
   tasks: Tasks[];
 };
+
 export function CardTasks({ tasks }: Props) {
   const taskPersonal = React.useMemo(
-    () => tasks?.filter((task) => task.type === TaskType.PERSONAL),
+    () =>
+      tasks
+        ?.filter((task) => task.type === TaskType.PERSONAL)
+        .sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
     [tasks],
   );
   const taskWork = React.useMemo(
-    () => tasks?.filter((task) => task.type === TaskType.WORK),
+    () =>
+      tasks
+        ?.filter((task) => task.type === TaskType.WORK)
+        .sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
     [tasks],
   );
   const taskStudy = React.useMemo(
-    () => tasks?.filter((task) => task.type === TaskType.STUDY),
+    () =>
+      tasks
+        ?.filter((task) => task.type === TaskType.STUDY)
+        .sort((a, b) => a.createdAt.localeCompare(b.createdAt)),
     [tasks],
   );
   return (
