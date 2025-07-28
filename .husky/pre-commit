@@ -11,4 +11,5 @@ if git diff --cached --name-only | grep '^frontend/'; then
   cd frontend
   npm run lint-staged
   npm run lint
+  npm run test
 fi
