@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -67,6 +67,24 @@ export class TasksService {
     return await this.prisma.task.update({
       where: { id, userId },
       data: updateTaskDto,
+    });
+  }
+
+  async updateStatus(id: string, userId: string): Promise<Task> {
+    if (!userId) {
+      throw new Error('Usuário não autenticado');
+    }
+    if (!id) {
+      throw new Error('ID da tarefa é obrigatório');
+    }
+    const task = await this.prisma.task.findUnique({ where: { id } });
+
+    if (!task) {
+      throw new NotFoundException('Tarefa não encontrada');
+    }
+    return this.prisma.task.update({
+      where: { id },
+      data: { completed: !task.completed },
     });
   }
 

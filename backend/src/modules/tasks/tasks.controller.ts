@@ -177,7 +177,6 @@ export class TasksController {
     summary: 'Atualiza o status de conclusão de uma tarefa pelo ID',
   })
   @ApiParam({ name: 'id', type: String })
-  @ApiBody({ type: UpdateTaskDto })
   @ApiResponse({
     status: 200,
     description: 'Status de conclusão atualizado.',
@@ -202,11 +201,10 @@ export class TasksController {
   @HttpCode(HttpStatus.OK)
   async updateStatus(
     @Param('id') id: string,
-    @Body() updateTaskDto: UpdateTaskDto,
     @Req() req: AuthenticatedRequest,
   ): Promise<Task> {
     const userId = req.user?.id;
-    return await this.tasksService.update(id, updateTaskDto, userId as string);
+    return await this.tasksService.updateStatus(id, userId as string);
   }
 
   @Delete(':id')
