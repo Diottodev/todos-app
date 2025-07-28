@@ -10,6 +10,7 @@
     "format": "prettier --write .",
     "test": "cypress run --browser chrome --headless",
     "test:open": "cypress open --browser chrome",
+    "test:component": "cypress run --component --browser chrome",
     "lint-staged": "lint-staged"
   },
   "lint-staged": {
@@ -48,6 +49,8 @@
     "zod": "^4.0.6"
   },
   "devDependencies": {
+    "@cypress/react": "^9.0.1",
+    "@cypress/webpack-dev-server": "^4.1.1",
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -60,6 +63,7 @@
     "prettier": "^3.6.2",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.5",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "webpack": "^5.100.2"
   }
 }

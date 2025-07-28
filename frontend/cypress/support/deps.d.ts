@@ -3,5 +3,6 @@ declare namespace Cypress {
     mockTasks(): Chainable<void>;
     mockLogin(): Chainable<void>;
     mockRegister(): Chainable<void>;
+    mount: typeof mount;
   }
 }

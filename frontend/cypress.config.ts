@@ -5,4 +5,12 @@ export default defineConfig({
     baseUrl: "http://localhost:3000",
     screenshotOnRunFailure: false,
   },
+
+  component: {
+    screenshotOnRunFailure: false,
+    devServer: {
+      framework: "next",
+      bundler: "webpack",
+    },
+  },
 });
