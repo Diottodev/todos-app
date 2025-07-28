@@ -138,7 +138,7 @@ O CI/CD utiliza GitHub Actions e é disparado em push/pull request para a branch
 2. **Instalação de dependências e build do backend** (`npm install`, `npm run build`)
 3. **Testes automatizados backend** (`npm run test`)
 4. **Instalação de dependências e build do frontend** (`npm install`, `npm run build`)
-5. **Testes automatizados frontend** (`npm run test`)
+5. **Testes automatizados frontend** (`npm run test:component`)
 6. **Build e push das imagens Docker** (API e Frontend)
 7. **Deploy automatizado em EC2 via SSH**
 
@@ -152,34 +152,134 @@ Secrets e variáveis de ambiente são gerenciados pelo GitHub Actions.
 #### Exemplo de workflow (resumido)
 
 ```yaml
+name: CI-CD-APP
+
 on:
   push:
     branches: [master]
+    paths-ignore:
+      - "README.md"
+      - "backend/README.md"
+      - "frontend/README.md"
   pull_request:
     branches: [master]
+    paths-ignore:
+      - "README.md"
+      - "backend/README.md"
+      - "frontend/README.md"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
 jobs:
   build-and-test:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Install dependencies
-        run: npm install
+
+      - name: Install dependencies (backend)
+        run: npm ci
         working-directory: backend
+
+      - name: generate Prisma client
+        run: npx prisma generate
+        working-directory: backend
+
       - name: Run tests
-        run: npm run test
+        run: |
+          ./node_modules/.bin/jest
         working-directory: backend
+
       - name: Build API
         run: npm run build
         working-directory: backend
+
+      - name: Set up Node.js (frontend)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Install dependencies (frontend)
-        run: npm install
+        run: npm ci
         working-directory: frontend
+
+      - name: Run tests (frontend)
+        run: npm run test:component
+        working-directory: frontend
+
       - name: Build frontend
         run: npm run build
         working-directory: frontend
+
+  dockerize:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push API Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile.api
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/todos-api:latest
+          build-args: |
+            RUN_PRISMA=false
+
+      - name: Build and push Frontend Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile.front
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
+
+  deploy:
+    needs: dockerize
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_PORT || 22 }}
+          debug: true
+          envs: RUN_PRISMA
+          script: |
+            export RUN_PRISMA=true
+            cd ~/todos-app
+            set -o allexport
+            source backend/.env
+            set +o allexport
+            git pull
+            docker compose build
+            docker compose up -d --remove-orphans
 ```
 
 Veja o arquivo `.github/workflows/ci-cd.yml` para detalhes completos.
@@ -189,61 +289,6 @@ Veja o arquivo `.github/workflows/ci-cd.yml` para detalhes completos.
 Após o deploy dos serviços no EC2, o servidor EC2 utiliza o Nginx como load balancer para gerenciar o DNS. O Nginx direciona as requisições do domínio para os links corretos do frontend e backend, garantindo alta disponibilidade e roteamento eficiente entre os serviços.
 
 O **Minhas tarefas - Todo app -** é uma solução completa para gerenciamento de tarefas, desenvolvida em arquitetura monorepo. O objetivo é fornecer uma experiência moderna, segura e escalável tanto para usuários finais quanto para desenvolvedores.
-
-#### Exemplo de workflow (resumido)
-
-```yaml
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
-jobs:
-  build-and-test:
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - name: Install dependencies
-        run: cd backend && npm install
-      - name: Run tests
-        run: cd backend && npm run test
-      - name: Build API
-        run: cd backend && npm run build
-      - name: Install dependencies (frontend)
-        run: cd frontend && npm install
-      - name: Build frontend
-        run: cd frontend && npm run build
-  dockerize:
-    needs: build-and-test
-    steps:
-      - name: Build and push API Docker image
-        uses: docker/build-push-action@v5
-        with:
-          file: Dockerfile.api
-          push: true
-      - name: Build and push Frontend Docker image
-        uses: docker/build-push-action@v5
-        with:
-          file: Dockerfile.front
-          push: true
-  deploy:
-    needs: dockerize
-    steps:
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd ~/todos-app
-            git pull
-            docker compose build
-            docker compose up -d --remove-orphans
-```
 
 #### Notificações Discord
 
