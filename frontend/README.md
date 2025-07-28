@@ -23,11 +23,11 @@ Interface web moderna para o gerenciamento de tarefas, conectada ao backend Nest
 
 1. Instale as dependências:
    ```bash
-   yarn install
+   npm install
    ```
 2. Inicie o servidor de desenvolvimento:
    ```bash
-   yarn dev
+   npm run dev
    ```
 3. Acesse [http://localhost:3000](http://localhost:3000) no navegador.
 
@@ -36,8 +36,12 @@ Interface web moderna para o gerenciamento de tarefas, conectada ao backend Nest
 Execute os testes end-to-end com:
 
 ```bash
+npm run test:open
+```
 
 ## CI/CD
+
+O pipeline utiliza GitHub Actions, rodando testes, build, Docker e deploy automatizado. Veja o README principal para detalhes.
 
 - Instala dependências
 - Faz build e exportação
@@ -51,6 +55,7 @@ O deploy é feito automaticamente para uma instância EC2 configurada via secret
 ---
 
 Dúvidas ou sugestões? Abra uma issue ou pull request.
+
 ```
 
 
@@ -58,3 +63,4 @@ Dúvidas ou sugestões? Abra uma issue ou pull request.
 
 - Melhorar cobertura de testes Cypress no frontend
 - Refatoraração continua
+```
